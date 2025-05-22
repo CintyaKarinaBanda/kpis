@@ -1,0 +1,10 @@
+/frontend/node_modules/
+/backend/node_modules/
+/kpi-dashboard-main/frontend/node_modules/
+/deployment/lambda/get-kpi-data/node_modules
+/deployment/lambda/get-kpi-summary/node_modules/
+/deployment/lambda/process-csv/node_modules/
+/deployment/lambda/upload-csv/node_modules/
+/deployment/lambda/auth/node_modules/
+/deployment/lambda/api/node_modules/
+/deployment/lambda/api/node_modules/

@@ -1,0 +1,26 @@
+Name,Commentario,Indicadores Presidencia,Operativo Anual,Operativo Diario,Operativo Fin de Semana y Semanal,Operativo Mensual,Tendencia Firme / No Firme,Ventas por Tienda y Division,Ventas Presidencia,Ventas Restaurantes,Ventas Viajes Palacio
+01-05-2025,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05-05-2025,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+06-05-2025,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+07-05-2025,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+08-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12-05-2025,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+13-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17-05-2025,"Se presenta una diferencia del: 1% en tienda Santa Fe, 2% en tienda nuevo Coyoacán, 1% casa Palacio Santa Fe, -6% La Boutique Palacio Acoxpa, -1% ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.  Al generar el archivo de Boutiques 4 hojas presentaron información de un día anterior, por lo cual se procedió a generar de nuevo el reporte. Posterior a ello se validó el mismo y mostró información actualizada en todas sus hojas..",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18-05-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19-05-2025,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+20-05-2025,"muestran con diferencias del: 162% La Boutique Palacio Acapulco, 1% en Tienda Durango no aplica un % de diferencia para que se frenen los reportes, por lo que se continúa con las validaciones.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21-05-2025,"Se presenta una diferencia del 2% en tienda nuevo Coyoacán, -1% en ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.  Se recibió data del día para viajes, pero en la comparativa para el año anterior se reportó con data en ceros, por lo cual se notificó al equipo de Palacio, se nos indicó que se mandara ya que tenemos información del día.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01-04-2025,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02-04-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03-04-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04-04-2025,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK

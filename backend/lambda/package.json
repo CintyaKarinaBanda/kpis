@@ -1,0 +1,11 @@
+{
+  "name": "kpi-dashboard-lambda",
+  "version": "1.0.0",
+  "description": "Funciones Lambda para KPI Dashboard",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1048.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

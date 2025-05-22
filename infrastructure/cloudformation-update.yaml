@@ -1,0 +1,347 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Actualización de recursos para KPI Dashboard'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    Description: Entorno de despliegue
+    AllowedValues:
+      - dev
+      - test
+      - prod
+
+Resources:
+  # Tabla DynamoDB para almacenar datos de KPI
+  KPIDataTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${Environment}-kpi-dashboard-data
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: date
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: DateIndex
+          KeySchema:
+            - AttributeName: date
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: UserIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Función Lambda para procesar archivos CSV
+  ProcessCSVFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-kpi-dashboard-process-csv
+      Runtime: nodejs14.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 60
+      MemorySize: 256
+      Environment:
+        Variables:
+          KPI_TABLE: !Ref KPIDataTable
+          CSV_BUCKET: !Ref CSVBucket
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            console.log('Esta es una función de marcador de posición. Reemplazar con el código real.');
+            return { statusCode: 200, body: JSON.stringify({ message: 'Función de marcador de posición' }) };
+          }
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Función Lambda para obtener datos de KPI
+  GetKPIDataFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-kpi-dashboard-get-kpi-data
+      Runtime: nodejs14.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      MemorySize: 256
+      Environment:
+        Variables:
+          KPI_TABLE: !Ref KPIDataTable
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            console.log('Esta es una función de marcador de posición. Reemplazar con el código real.');
+            return { statusCode: 200, body: JSON.stringify({ message: 'Función de marcador de posición' }) };
+          }
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Función Lambda para obtener resumen de KPI
+  GetKPISummaryFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-kpi-dashboard-get-kpi-summary
+      Runtime: nodejs14.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      MemorySize: 256
+      Environment:
+        Variables:
+          KPI_TABLE: !Ref KPIDataTable
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            console.log('Esta es una función de marcador de posición. Reemplazar con el código real.');
+            return { statusCode: 200, body: JSON.stringify({ message: 'Función de marcador de posición' }) };
+          }
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Función Lambda para generar URLs de carga
+  UploadCSVFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-kpi-dashboard-upload-csv
+      Runtime: nodejs14.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      MemorySize: 256
+      Environment:
+        Variables:
+          CSV_BUCKET: !Ref CSVBucket
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            console.log('Esta es una función de marcador de posición. Reemplazar con el código real.');
+            return { statusCode: 200, body: JSON.stringify({ message: 'Función de marcador de posición' }) };
+          }
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Rol de ejecución para las funciones Lambda
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${Environment}-kpi-dashboard-lambda-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: KPIDashboardLambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:BatchWriteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource: !GetAtt KPIDataTable.Arn
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub arn:aws:s3:::${CSVBucket}
+                  - !Sub arn:aws:s3:::${CSVBucket}/*
+
+  # Bucket S3 para almacenar archivos CSV
+  CSVBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${Environment}-kpi-dashboard-csv
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - HEAD
+            AllowedOrigins:
+              - '*'
+            MaxAge: 3000
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldFiles
+            Status: Enabled
+            ExpirationInDays: 90
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: .csv
+            Function: !GetAtt ProcessCSVFunction.Arn
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+  # Permiso para que S3 invoque la función Lambda
+  LambdaPermissionForS3:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ProcessCSVFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub arn:aws:s3:::${CSVBucket}
+
+  # API Gateway para exponer las funciones Lambda
+  ApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub ${Environment}-kpi-dashboard-api
+      Description: API para KPI Dashboard
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  # Recurso API para datos de KPI
+  ApiResourceKPI:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ParentId: !GetAtt ApiGateway.RootResourceId
+      PathPart: api
+
+  # Método POST para obtener datos de KPI
+  ApiMethodKPIPost:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ApiResourceKPI
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetKPIDataFunction.Arn}/invocations
+
+  # Recurso API para subir CSV
+  ApiResourceCSV:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ParentId: !GetAtt ApiGateway.RootResourceId
+      PathPart: csv
+
+  # Método POST para procesar CSV
+  ApiMethodCSVPost:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ApiResourceCSV
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProcessCSVFunction.Arn}/invocations
+
+  # Recurso API para URL de carga
+  ApiResourceCSVUploadURL:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ParentId: !Ref ApiResourceCSV
+      PathPart: upload-url
+
+  # Método POST para obtener URL de carga
+  ApiMethodCSVUploadURLPost:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ApiResourceCSVUploadURL
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UploadCSVFunction.Arn}/invocations
+
+  # Despliegue de la API
+  ApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - ApiMethodKPIPost
+      - ApiMethodCSVPost
+      - ApiMethodCSVUploadURLPost
+    Properties:
+      RestApiId: !Ref ApiGateway
+      StageName: !Ref Environment
+
+  # Permisos para que API Gateway invoque las funciones Lambda
+  LambdaPermissionForApiGatewayKPI:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref GetKPIDataFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/${Environment}/POST/api
+
+  LambdaPermissionForApiGatewayCSV:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ProcessCSVFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/${Environment}/POST/csv
+
+  LambdaPermissionForApiGatewayCSVUploadURL:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref UploadCSVFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/${Environment}/POST/csv/upload-url
+
+Outputs:
+  ApiEndpoint:
+    Description: URL del API Gateway
+    Value: !Sub https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${Environment}
+
+  CSVBucketName:
+    Description: Nombre del bucket S3 para archivos CSV
+    Value: !Ref CSVBucket
+
+  KPIDataTableName:
+    Description: Nombre de la tabla DynamoDB para datos de KPI
+    Value: !Ref KPIDataTable

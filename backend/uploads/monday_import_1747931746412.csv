@@ -1,0 +1,501 @@
+Name,Commentario,Indicadores Presidencia,Operativo Anual,Operativo Diario,Operativo Fin de Semana y Semanal,Operativo Mensual,Tendencia Firme / No Firme,Ventas por Tienda y Division,Ventas Presidencia,Ventas Restaurantes,Ventas Viajes Palacio
+01/05/25,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/05/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+06/05/25,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+07/05/25,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+08/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/05/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+13/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/05/25,"Se presenta una diferencia del: 1% en tienda Santa Fe, 2% en tienda nuevo Coyoacán, 1% casa Palacio Santa Fe, -6% La Boutique Palacio Acoxpa, -1% ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.  Al generar el archivo de Boutiques 4 hojas presentaron información de un día anterior, por lo cual se procedió a generar de nuevo el reporte. Posterior a ello se validó el mismo y mostró información actualizada en todas sus hojas..",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/05/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/05/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+20/05/25,"muestran con diferencias del: 162% La Boutique Palacio Acapulco, 1% en Tienda Durango no aplica un % de diferencia para que se frenen los reportes, por lo que se continúa con las validaciones.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/05/25,"Se presenta una diferencia del 2% en tienda nuevo Coyoacán, -1% en ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.  Se recibió data del día para viajes, pero en la comparativa para el año anterior se reportó con data en ceros, por lo cual se notificó al equipo de Palacio, se nos indicó que se mandara ya que tenemos información del día.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/05/25,"Se presento una diferencia del 14% en Tienda Satélite, se levanto ticket P1, las diferencias se debieron a transacciones que se contabilizaron a las 4:00 AM, actualemente se muestran diferencias del 22% en Boutique Pandora Parque Durazn y -1% ventas por internet, se levanto ticket P3.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/04/25,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/04/25,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+07/04/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+08/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/04/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+15/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/04/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+22/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/04/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+29/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/04/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/03/25,"Se presenta una diferencia del 35% entre ECC y PDTA en la tienda Casa Palacio Santa Fe y -1% entre ECC y PDTA en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,OK,OK,OK,OK,OK,OK,OK
+02/03/25,"Se presenta una diferencia del 1% entre ECC y PDTA en la tienda Nuevo. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/03/25,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+04/03/25,"Se presenta una diferencia del -1% entre ECC y PDTA en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/03/25,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacán y -1 en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/03/25,"Se presenta una diferencia entre ECC y PDTA del -1 % en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido. Adicionalmente, se presentó un error al generar dos de los reportes (Boutiques y Tendencia y Dirección), el cual consistía en que el server no reconocía la vigencia de licencia; para resolverlo se reiniciaron los servicios de Tableau y se procedió a generar los reportes faltantes. Esto generó un atraso en la entrega de reportes, mismos que se entregaron a las 08:01 hrs.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/03/25,"Se presenta una diferencia entre ECC y PDTA del 7% en Casa Palacio Antara, -1% en Ventas por Internet y 1% en Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/03/25,"Se presenta una diferencia entre ECC y PDTA del 2% en Casa Palacio Santa Fe y del -1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Santa Fe y 1% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Durango Perisur. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+11/03/25,"Se presenta una diferencia entre ECC y PDTA del 3% en tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/03/25,"Se presenta una diferencia entre ECC y PDTA del -1% en Ventas por Internet, -1% en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/03/25,"Se presenta una diferencia entre ECC y PDTA del 2% en Tienda Nuevo Coyoacán, -1% en Ventas por Teléfono, -1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/03/25,"Se presenta una diferencia entre ECC y PDTA del 2% en Tienda Durango, 1% en Tienda Polanco, 2% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Durango, 1% en Tienda Nuevo Coyoacan, -1% en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/03/25,"Se presenta una diferencia entre ECC y PDTA del 2% en Tienda Durango y 1% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Durango y 2% en Tienda Perisur y 2% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+18/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Durango, 1%  en Tienda Polanco y 1% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/03/25,"Se presenta una diferencia entre ECC y PDTA del -1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/03/25,"Se presenta una diferencia entre ECC y PDTA del 2% en tienda nuevo Coyoacán, -1% Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en tienda centro, 1% en Tienda Puebla, 1% en Tienda Satélite, 1% en Tienda Interlomas, 1% en Tienda Veracruz. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Tienda Perisur y -1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/03/25,"Se presenta una diferencia entre ECC y PDTA del 2% en Tienda Durango,1% en Tienda Perisur y 1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+25/03/25,"Se presenta una diferencia entre ECC y PDTA del 29% en casa Palacio Santa Fe,10% en Boutique Mango Antara 1% en Tienda Santa Fe y -1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/03/25,"Se presenta una diferencia entre ECC y PDTA del 1% en Tienda Interlomas y 1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/03/25,"Se presenta una diferencia entre ECC y PDTA del 3% en Tienda Polanco, -1% Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/03/25,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+29/03/25,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+30/03/25,"Se presenta una diferencia entre ECC y PDTA del 5% en Boutique Kurt Antea Querétaro, 4% Boutique Kurt Antara y -1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+31/03/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+01/02/25,,OK,N/A,OK,OK,OK,OK,OK,OK,OK,OK
+02/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/02/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+04/02/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan y 4 % entre ECC y PDTA en Casa Palacio Santa Fe . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/02/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Interlomas. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/02/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+11/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/02/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Ventas por Telefono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/02/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan y 2 % entre ECC y PDTA en Tienda Santa Fe . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/02/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+18/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/02/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+25/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/02/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/01/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+02/01/25,,OK,N/A,OK,N/A,OK,OK,OK,OK,N/A,OK
+03/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en las tiendas Polanco y Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en la tiendas Polanco y 3% entre ECC y PDTA en la tienda  Perisur . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en las tiendas Santa Fe  y tienda  Nueva Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/01/25,"Se presenta una diferencia del 2% entre ECC y PDTA en la tienda Durango, 1% entre ECC y PDTA en la tienda  Nueva Coyoacan y 1% entre ECC y PDTA en Casa Palacio Santa Fe . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+07/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en la tienda Interlomas y -1% entre ECC y PDTA en Ventas por Telefono . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/01/25,"Se presenta una diferencia del 3% entre ECC y PDTA en la Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en las Tiendas Polanco y Ventas  Por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en las Tiendas Polanco , Ventas  Por Internet y Tienda Nuevo Coyoacán . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/01/25,"Se presenta una diferencia del 14% entre ECC y PDTA en Outlet Lerma, 10% entre ECC y PDTA en Outlet  Punta Norte y 4% entre ECC y PDTA en Ventas por Telefono . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/01/25,"Se presenta una diferencia del 2% entre ECC y PDTA en Outlet  Punta Norte. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/01/25,"Se presenta una diferencia del 3% entre ECC y PDTA en Outlet  Punta Norte y -1% entre ECC y PDTA en Ventas por Internet . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+14/01/25,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/01/25,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Polanco. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/01/25,"Se detectó una inconsistencia en los datos de los reportes ""Tendencia Dirección"", ""Operativo Diario"" y ""Ventas por Tienda y División"", derivada de una reclasificación. El impacto se reflejó en el total de ventas correspondiente a la división Tecnología y Experiencias, cuya información fue reclasificada bajo los nuevos nombres de división: Tecnologia (sin acento) y Nuevos Negocios, respectivamente.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango y Tienda Nuevo Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+21/01/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Leon. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/01/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/01/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/01/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/01/25,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+28/01/25,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/01/25,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Santa Fe y 2 % entre ECC y PDTA en Ventas por Telefono . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+31/01/25,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/12/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/12/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+03/12/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+04/12/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+05/12/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+06/12/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+07/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/12/24,"Derivado a que el provedor no propociono el  archivivo viajes_palacio.CSV, el equipo no realiza el envio del Reporte Ventas Viajes Palacio , esto siguiento el protocolo establecido ya que se este se mostrara en 0",OK,OK,OK,OK,OK,OK,OK,OK,OK,NO
+10/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/12/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+17/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/12/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+24/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/12/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/12/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango,  Ventas por Telefono y Tienda Santa Fe . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/12/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Polanco,  Tienda Nuevo Coyoacan. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/12/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+31/12/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/11/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/11/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+05/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/11/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+12/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/11/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+19/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/11/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+26/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/10/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/10/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+08/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/10/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+11/10/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango, Tienda Santa Fe y Tienda Interlomas y 3% entre ECC y PDTA en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/10/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+15/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/10/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+22/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/10/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+29/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+31/10/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+02/09/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+03/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/09/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+10/09/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán y 10% entre ECC y PDTA en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/09/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Durango y 23% entre ECC y PDTA en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/09/24,"Se presenta una diferencia del 4% entre ECC y PDTA en Tienda Durango y 11% entre ECC y PDTA en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/09/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+17/09/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/09/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+24/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/09/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/09/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+01/08/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan y 2 % entre ECC y PDTA en Tienda Interlomas. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/08/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+06/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/08/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/08/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+13/08/24,"No se llevó a cabo la cadena productiva debido a problemas con la red interna de Palacio, situación que queda fuera del control del equipo de XAL. El equipo se mantiene pendiente para la reactivación de la cadena productiva.",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+14/08/24,"No se llevó a cabo la cadena productiva debido a problemas con la red interna de Palacio, situación que queda fuera del control del equipo de XAL. El equipo se mantiene pendiente para la reactivación de la cadena productiva.",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+15/08/24,"No se llevó a cabo la cadena productiva debido a problemas con la red interna de Palacio, situación que queda fuera del control del equipo de XAL. El equipo se mantiene pendiente para la reactivación de la cadena productiva.",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+16/08/24,"No se llevó a cabo la cadena productiva debido a problemas con la red interna de Palacio, situación que queda fuera del control del equipo de XAL. El equipo se mantiene pendiente para la reactivación de la cadena productiva.",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+17/08/24,"No se llevó a cabo la cadena productiva debido a problemas con la red interna de Palacio, situación que queda fuera del control del equipo de XAL. El equipo se mantiene pendiente para la reactivación de la cadena productiva.",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+18/08/24,"No se llevó a cabo la cadena productiva debido a problemas con la red interna de Palacio, situación que queda fuera del control del equipo de XAL. El equipo se mantiene pendiente para la reactivación de la cadena productiva.",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+19/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,OK,OK,OK,OK,OK,OK,OK,OK,NO
+20/08/24,"Se realizó la generación de reportes; sin embargo, se identificó una anomalía en la tienda Nueva Coyoacán, donde se presentan ventas negativas tanto en ventas auditadas como en ventas contabilizadas, registrando un monto de -18,788 en ambos casos. Debido a esta situación, se detiene el envío de reportes a los destinatarios finales. Este caso fue identificado posterior al blackout ocurrido en la cadena productiva que se presento por  problemas en la red interna de Palacio. Por ello, el equipo de EPH solicita pausar el envío con el fin de revisar la anomalía directamente desde su fuente de datos (SAP).",NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+21/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+22/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+23/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+24/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+25/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+26/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+27/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+28/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+29/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+30/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+31/08/24,"Derivado de que el proveedor no proporcionó el archivo viajes_palacio.csv, el equipo no realizó el envío del “Reporte Ventas Viajes Palacio”. Esto en cumplimiento con el protocolo establecido, ya que, en ausencia del archivo, el reporte se generaría con valores en cero.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,NO
+01/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Polanco,  Tienda Nuevo Coyoacán y Ventas por Teléfono . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+02/07/24,"Por información desactualizada, se enviaron dos veces los siguientes reportes: - Tablero de Cifras Control - Reporte de Ventas Boutiques - Reporte Venta Tendencia Firme / No Firme, Ecommerce, Outlet con Plan",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/07/24,Se presento una direncia entre ECC y PDTA en Tienda Santa Fe por lo cual se detuvo el envió de reportes,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/07/24,"Se presenta una diferencia del 4% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/07/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/07/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Durango y 1% entre ECC y PDTA en Tienda Nuevo Coyoacan . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+09/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/07/24,Los siguientes Reportes se enviaron 2 veces porque no traían información actualizada:  Tablero de Cifras Control y Ventas Boutiques,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/07/24,"Se presento un error en el envío de reportes esto derivado a que el correo de analiticosbi@ph.com.mx presentara una saturación en su almacenamiento, el cual se procedió ha eliminar correos que correspondan a las siguientes notificaciones.  * BI 2.0 notificación: Proceso iniciado Ventas por hora * BI 2.0 notificación: Reportes por generar de Ventas por hora",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/07/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/07/24,Se presentó incidencia con vpn y data stage el cual fue solventado aproximadamente a las 12:50Se presentó incidencia con vpn y data stage el cual fue solventado aproximadamente a las 12:50,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en la tienda Nuevo. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+16/07/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/07/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/07/24,"Se presenta una diferencia del -1% entre ECC y PDTA en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/07/24,"Se presenta una diferencia del -1% entre ECC y PDTA en Ventas por Internet y 1% entre ECC y PDTA Tienda Monterrey en . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/07/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango y Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+23/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. y Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán, 45% entre ECC y PDTA en Casa Palacio Antara y 50% entre ECC y PDTA en Ventas por Internet . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/07/24,"Se presenta una diferencia del 3% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. y Tienda Polanco, 3% entre ECC y PDTA en Tienda Durango  y 2% entre ECC y PDTA en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+30/07/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango y -6% entre ECC y PDTA en Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+31/07/24,"Se presenta una diferencia del -1% entre ECC y PDTA en Ventas por Internet . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango y 2 % entre ECC y PDTA en Tienda Interlomas. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+02/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/06/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+04/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan y Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Ventas por Teléfono y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/06/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Santa Fe y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan,  20% entre ECC y PDTA en Casa Palacio Santa Fe y 40% entre ECC y PDTA en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango,  1% entre ECC y PDTA en Tienda Santa Fe y 30% entre ECC y PDTA en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/06/24,"Se presenta una diferencia del 66% entre ECC y PDTA en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+11/06/24,"Se presenta una diferencia del 4% entre ECC y PDTA en Tienda Nuevo Coyoacán y -1% entre ECC y PDTA en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/06/24,"Se reporto falla en la conexion con Tableau, los reportes de Viajes Ingreso salio con fecha incorrecta, los reportes que se emiterion ecommercePPTO, Restaurante y Terrazas, boutiques y ventas presidencia llegaron bien.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Perisur y 6% entre ECC y PDTA en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/06/24,"Se presenta una diferencia del 176% entre ECC y PDTA en Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa. ﻿Se presento un error en un paso de ﻿itemdefinition, el equipo realizo una nueva ejecución para su ejecución correcta de dicho paso, el cual genero un atraso con entrega estimada a las 7:30",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+18/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/06/24,"Se presenta una diferencia del 4% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Polanco, 84% entre ECC y PDTA en Casa Palacio Antara, 101% entre ECC y PDTA en. Casa Palacio Santa Fe y 1% entre ECC y PDTA en Venta por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacán y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/06/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacán y Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+25/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Durango. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/06/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/06/24,"Se presenta una diferencia del 2% entre ECC y PDTA en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Venta por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/06/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/06/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan y Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la cadena operativa.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/05/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/05/24,"Se presenta una diferencia del 14% entre ECC y PDTA  en Tienda León, del 64% en Casa Palacio Santa Fe y del 52% en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/05/24,"Se presenta una diferencia del 19% entre ECC y PDTA  en Casa Palacio Antara, del 1% en Tienda Polanco y del 2% en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/05/24,"Se presenta una diferencia del 2% entre ECC y PDTA  en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/05/24,Se procedió a levantar ticket por diferencia en Casa Palacio Santa fe del 39%.,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/05/24,,NO,OK,OK,OK,OK,OK,OK,OK,OK,OK
+07/05/24,,OK,N/A,OK,N/A,N/A,NO,OK,OK,OK,OK
+08/05/24,Se procedió a levantar ticket por diferencia en Casa Palacio Santa fe del 39%.,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/05/24,"Se presenta una diferencia del 2% entre ECC y PDTA  en Ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/05/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/05/24,"Se presenta una diferencia del 3% entre ECC y PDTA  en Tienda Durango del 1% en Tienda Nuevo Coyoacán y del 1% en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+14/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Ventas por Internet, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/05/24,"Se presenta una diferencia entre ECC y PDTA del 6% en Tienda Guadalajara y del 2% en Tienda Santa Fe, por lo que se detuvo la generación de reportes y cuando el equipo de PH lo solucionó, el equipo de Operaciones realizó el reproceso de Ventas Contabilizadas y los reportes diarios se enviaron a destinatarios finales.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/05/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/05/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/05/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/05/24,"Se presenta una diferencia del 2% entre ECC y PDTA  en Tienda Nuevo Coyoacán. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Tienda Interlomas. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+21/05/24,"Se presenta una diferencia del 2% entre ECC y PDTA  en Tienda Perisur y en Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/05/24,"Se presenta una diferencia del 4% entre ECC y PDTA  en Tienda Nuevo Coyoacán y del 1% en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Tienda Nuevo Coyoacán y en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/05/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Tienda Polanco. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/05/24,"Se presenta una diferencia del 3% entre ECC y PDTA  en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/05/24,"Se presenta una diferencia entre ECC y PDTA  del 1% en Tienda Santa Fe y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+28/05/24,"Se concluye la ventana de mantenimiento a las 4:21 hrs, por lo cual, el envío de reportes a destinatarios finales se realizó a las 7:45 hrs.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/05/24,"Se presenta una diferencia entre ECC y PDTA  del 1% en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/05/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+31/05/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+02/04/24,"Se detectaron diferencias representativas entre ECC y PDTA para las Tiendas Centro, Perisur, Interlomas, Satélite y Veracruz, el equipo de EPH encontró más de mil transacciones con error. Al corregirlo, el equipo de Operaciones realizó el reproceso de Ventas Contabilizadas y los reportes diarios a destinatarios finales se realizó a las 13:30 hrs.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Perisur y del 3% en Tienda Satélite. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena. Adicionalmente, a petición de cliente se detuvo el envío de reportes finales hasta que se nos otorgara el VoBo, lo cual ocurrió a las 8:10.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/04/24,"Se presenta una diferencia del 30% entre ECC y PDTA en Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/04/24,"Se presenta una diferencia del 30% entre ECC y PDTA en Casa Palacio Antara. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Centro, Tienda Nuevo Coyoacán, Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA Tienda Perisur. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA Tienda Durango y Casa Palacio Santa Fe y del 2% en Tienda Perisur y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+09/04/24,"Para el Reporte de Ventas por Tienda y División se detecta que el formato de este se encuentra con errores, se contacta el equipo de Bi para solventar este inconsistencia en su formato, una vez solventado se vuelve a generar el reporte , dicho problema no genero atrasos en los envíos finales",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/04/24,"Se presenta una diferencia del 36% entre ECC y PDTA  en Tienda Veracruz y del 8% en Ventas por Teléfono. Cuando el equipo de PH lo solucionó, el equipo de Operaciones realizó el reproceso de Ventas Contabilizadas y los reportes diarios a destinatarios finales se realizó a las 09:55 hrs.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Tienda Perisur. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/04/24,"Se presenta una diferencia del 7% entre ECC y PDTA  en Casa Palacio Santa fe y en Ventas por Teléfono del 102%. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+16/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/04/24,"Se presenta una diferencia del 28% entre ECC y PDTA  en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/04/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+23/04/24,"Se presento demora en la recepción de la bandera de ventas contabilizadas, se levanta el ticket a la mesa para revisar este tema, esto no genero atraso en el envío de reportes",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Ventas por internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/04/24,"Se presenta una diferencia del 1% entre ECC y PDTA  en Tienda Polanco y del 31% en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/04/24,"Se presenta una diferencia del 26% entre ECC y PDTA  en Ventas por Teléfono. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/04/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+30/04/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/03/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/03/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+05/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/03/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+12/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/03/24,"Se identificó un problema en la generación de los reportes  diarios, se identificaron los reportes afectados y el equipo realizó el WA; sin embargo, el error constió en que la IPV6 dinámica (temporal) en la configuración de Tableau había cambiado. El error presentado impactó la entrega de reportes hasta las 6:05 am.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/03/24,"Dentro de la cadena productiva se identificó que el archivo de TraficoEcomm.txt contenía fecha incorrecta , por lo cual se procedió a notificar a cliente el caso presentado, y se levantó un ticket a la mesa correspondiente como P1 derivado a que este archivo impacta en la cadena productiva eh impide el envío de los reportes diarios. Una vez solventado el tema, el envío de reportes a destinatarios finales se realizó a las 6:35.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/03/24,"Dentro de la cadena productiva se identificó que el archivo de TraficoEcomm.txt contenía fecha incorrecta , por lo cual  se procedió a ejecutar el WorkAround propuesto por el cliente para solventar el problema. Una vez solventado el tema, el envío de reportes a destinatarios finales se realizó a las 6:18.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/03/24,"Dentro de la cadena productiva se identificó que el archivo de TraficoEcomm.txt contenía fecha incorrecta , por lo cual  se procedió a ejecutar el WorkAround propuesto por el cliente para solventar el problema. Una vez solventado el tema, el envío de reportes a destinatarios finales.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/03/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+19/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/03/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en la Tienda Polanco y Tienda Interlomas. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en la Nuevo Coyoacán, Ventas por Teléfono y Ventas por Internet y del 2% en Tienda Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Casa Palacio Santa Fe . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Polanco . Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+26/03/24,"Se presenta una diferencia del -14% entre ECC y PDTA en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+27/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en TiendaDurango, Ventas por Teléfono y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Tienda Nuevo Coyoacan, Ventas por Teléfono y Ventas por Internet. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en Ventas por Teléfono y Ventas por Internet y del 35% en Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+30/03/24,"Se presenta una diferencia del 1% entre ECC y PDTA en la Tienda Casa Palacio Santa Fe. Dicha variación se encuentra dentro del margen establecido, por lo que no es necesario detener la operación de la cadena.",OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/02/24,,OK,N/A,OK,N/A,OK,OK,OK,OK,OK,OK
+02/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/02/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+06/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+08/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+09/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+11/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/02/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+13/02/24,,OK,N/A,OK,N/A,N/A,NO,OK,OK,OK,OK
+14/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+16/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+18/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/02/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+20/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+23/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+24/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+25/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+26/02/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+27/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+28/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+29/02/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/01/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+02/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+03/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+04/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+05/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+06/01/24,Se presento un retraso en la cade productiva Ventas BI 2.0 esto derivo que el envío de los reportes finalizará a las 13:48,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+07/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/08/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+09/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+10/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+01/11/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+12/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+13/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+14/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+15/01/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+16/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+17/01/24,,NO,N/A,NO,N/A,N/A,NO,NO,NO,NO,NO
+18/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+19/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+20/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+21/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK
+22/01/24,,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+23/01/24,,OK,N/A,OK,N/A,N/A,OK,OK,OK,OK,OK

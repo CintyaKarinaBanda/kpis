@@ -1,0 +1,25 @@
+{
+  "boards": [
+    {
+      "id": "2205761827",
+      "name": "WorkLoad_2"
+    }
+  ],
+  "columnMappings": {
+    "2205761827": {
+      "name": "Name",
+      "subelementos": "Name",
+      "status": "Ventas por Tienda y Division",
+      "dup__of_operativo_diario": "Ventas Presidencia",
+      "dup__of_ventas_por_tienda_y_division": "Operativo Diario",
+      "dup__of_ventas_presidencia": "Indicadores Presidencia",
+      "dup__of_indicadores_presidencia": "Tendencia Firme / No Firme",
+      "ventas_viajes_palacio": "Ventas Viajes Palacio",
+      "ventas_restaurantes": "Ventas Restaurantes",
+      "dup__of_tendencia_firme___no_firme__ecommerce__outlet": "Operativo Mensual",
+      "dup__of_operativo_mensual": "Operativo Fin de Semana y Semanal",
+      "dup__of_operativo_fin_de_semana_y_semanal": "Operativo Anual",
+      "text_mkqyzaah": "Commentario"
+    }
+  }
+}

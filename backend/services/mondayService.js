@@ -12,7 +12,7 @@ const mondayClient = axios.create({
   baseURL: MONDAY_API_URL,
   headers: {
     // 'Authorization': MONDAY_API_KEY ? `Bearer ${MONDAY_API_KEY}` : '',
-    'Authorization': `Bearer ${MONDAY_API_KEY}`,
+    'Authorization': MONDAY_API_KEY,
     'Content-Type': 'application/json'
   },
   timeout: 30000  // 30 segundos en lugar del predeterminado
@@ -231,130 +231,110 @@ const transformBoardData = (boardData, columnMapping) => {
     return [];
   }
 
-  // Obtener todas las columnas del tablero para el análisis
-  const allColumns = boardData.columns || [];
+  // Estructura exacta de columnas según el README
+  const expectedColumns = [
+    'Name',
+    'Ventas por Tienda y Division',
+    'Ventas Presidencia',
+    'Operativo Diario',
+    'Indicadores Presidencia',
+    'Tendencia Firme / No Firme, Ecommerce, Outlet',
+    'Ventas Viajes Palacio',
+    'Ventas Restaurantes',
+    'Operativo Mensual',
+    'Operativo Fin de Semana y Semanal',
+    'Operativo Anual',
+    'Item ID (auto generated)',
+    'Commentario'
+  ];
 
-  // Array para almacenar los items transformados
-  const transformedItems = [];
-
-  // Función para formatear cualquier formato de fecha a DD/MM/YY
+  // Función para formatear fecha a DD/MM/YYYY
   const formatToDesiredDateFormat = (dateStr) => {
-    // Caso 1: Si la fecha viene en formato DD-MM-YYYY (como en los nombres de item)
-    if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
-      const [day, month, year] = dateStr.split('-');
-      return `${day}/${month}/${year.slice(-2)}`;
-    }
-
-    // Caso 2: Intentar crear un objeto Date y formatear
     try {
-      const date = new Date(dateStr);
-      // Verificar que es una fecha válida
-      if (!isNaN(date.getTime())) {
-        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
+      // Si la fecha ya está en formato DD-MM-YYYY
+      if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
+        const [day, month, year] = dateStr.split('-');
+        return `${day}/${month}/${year}`;
       }
-    } catch (e) {
-      // Si falla, seguimos con otras opciones
-    }
 
-    // Devolver el string original si no se pudo formatear
+      // Para otros formatos, convertir a Date y formatear
+      const date = new Date(dateStr);
+      if (!isNaN(date.getTime())) {
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+      }
+    } catch (e) {}
     return dateStr;
   };
 
-  // Contadores por fecha
-  const kpiCountsByDate = {};
+  return boardData.items_page.items.map(item => {
+    // Crear objeto con estructura exacta y valores por defecto
+    const transformedItem = expectedColumns.reduce((acc, col) => {
+      acc[col] = col === 'Name' ? '' : 'N/A';
+      return acc;
+    }, {});
 
-  // Procesamos cada item (fila/fecha) del tablero
-  boardData.items_page.items.forEach(item => {
-    // Objeto base con el nombre del item (fecha)
-    let formattedName = formatToDesiredDateFormat(item.name);
+    // Establecer fecha en formato DD/MM/YYYY
+    transformedItem.Name = formatToDesiredDateFormat(item.name);
 
-    const transformedItem = {
-      // Name: item.name || '' // Asumimos que el nombre del item es la fecha
-      Name: formattedName || '' // Asumimos que el nombre del item es la fecha
-    };
-
-    // Inicializar contadores para esta fecha
-    if (!kpiCountsByDate[item.name]) {
-      kpiCountsByDate[item.name] = { ok: 0, no: 0, na: 0, total: 0 };
-    }
-
-    // Crear un mapa para acceder rápidamente a los valores de columna por ID
+    // Mapear valores de columnas
     const columnValuesMap = {};
     item.column_values.forEach(cv => {
       columnValuesMap[cv.column.id] = cv;
     });
 
-    // Procesar cada columna según el mapeo
+    // Procesar columnas combinadas
+    const combinedColumnValue = 'N/A';
+    let hasCombinedValue = false;
+
     Object.entries(columnMapping).forEach(([columnId, categoryName]) => {
       const columnValue = columnValuesMap[columnId];
+      if (!columnValue) return;
 
-      if (columnValue) {
-        // Si es la columna de fecha, formatearla como DD/MM/YYYY
-        if (categoryName === 'Name' && columnValue.value) {
-          try {
-            const dateValue = JSON.parse(columnValue.value).date;
-            const date = new Date(dateValue);
-            // transformedItem[categoryName] = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
-            transformedItem[categoryName] = formatToDesiredDateFormat(dateValue);
-          } catch (e) {
-            // transformedItem[categoryName] = columnValue.text || '';
-            transformedItem[categoryName] = formatToDesiredDateFormat(dateValue);
-          }
-        } else {
-          // Para otras columnas, mapear los valores según el formato esperado
-          let value = columnValue.text || '';
+      let value = columnValue.text || '';
 
-          // Mapeo de valores de Monday.com a los valores esperados
-          switch (value.toLowerCase()) {
-            case 'completado':
-            case 'completo':
-            case 'hecho':
-            case 'ok':
-            case 'sí':
-            case 'yes':
-              value = 'OK';
-              // kpiCountsByDate[item.name].ok += 1;
-              break;
-            case 'pendiente':
-            case 'incompleto':
-            case 'no':
-            case 'fallo':
-              value = 'NO';
-              kpiCountsByDate[item.name].no += 1;
-              break;
-            case 'n/a':
-            case 'no aplica':
-            case 'na':
-              value = 'N/A';
-              kpiCountsByDate[item.name].na += 1;
-              break;
-            default:
-              // Si es un comentario o ID, dejarlo como está
-              if (categoryName === 'Commentario' || categoryName === 'Item ID (auto generated)') {
-                // No transformar
-              } else {
-                // Para columnas de categorías, valor por defecto es N/A
-                value = 'N/A';
-                kpiCountsByDate[item.name].na += 1;
-              }
-          }
+      // Manejar columnas combinadas
+      if (categoryName === 'Tendencia Firme / No Firme' || 
+          categoryName === 'Ecommerce' || 
+          categoryName === 'Outlet') {
+        if (!hasCombinedValue && value.toLowerCase().match(/ok|completado|completo|hecho|sí|yes/)) {
+          transformedItem['Tendencia Firme / No Firme, Ecommerce, Outlet'] = 'OK';
+          hasCombinedValue = true;
+        } else if (!hasCombinedValue && value.toLowerCase().match(/no|pendiente|incompleto|fallo/)) {
+          transformedItem['Tendencia Firme / No Firme, Ecommerce, Outlet'] = 'NO';
+          hasCombinedValue = true;
+        }
+        return;
+      }
 
-          transformedItem[categoryName] = value;
-          kpiCountsByDate[item.name].total += 1;
+      // Procesar resto de columnas
+      if (!expectedColumns.includes(categoryName)) return;
+
+      if (categoryName !== 'Commentario' && categoryName !== 'Item ID (auto generated)') {
+        switch (value.toLowerCase()) {
+          case 'completado':
+          case 'completo':
+          case 'hecho':
+          case 'ok':
+          case 'sí':
+          case 'yes':
+            value = 'OK';
+            break;
+          case 'pendiente':
+          case 'incompleto':
+          case 'no':
+          case 'fallo':
+            value = 'NO';
+            break;
+          default:
+            value = 'N/A';
         }
       }
+
+      transformedItem[categoryName] = value;
     });
 
-    // Añadir contadores al item transformado
-    // transformedItem['Total_OK'] = kpiCountsByDate[item.name].ok;
-    // transformedItem['Total_NO'] = kpiCountsByDate[item.name].no;
-    // transformedItem['Total_NA'] = kpiCountsByDate[item.name].na;
-    // transformedItem['Total_KPIs'] = kpiCountsByDate[item.name].total;
-
-    transformedItems.push(transformedItem);
+    return transformedItem;
   });
-  // console.log(transformedItems);
-  return transformedItems;
 };
 /**
  * Genera un archivo CSV a partir de los datos transformados
@@ -394,92 +374,48 @@ const transformBoardData = (boardData, columnMapping) => {
 //   return csvContent.join('\n');
 // };
 const generateCSV = (transformedData) => {
-  // console.log(transformedData);
   console.log("Generando CSV...");
 
-  // Verificación de datos
-  if (!transformedData || !Array.isArray(transformedData)) {
-    console.error("⚠️ Datos inválidos para generar CSV - No es un array");
-    return "";
-  }
-
-  if (transformedData.length === 0) {
-    console.error("⚠️ Datos vacíos para generar CSV - Array vacío");
+  if (!transformedData || !Array.isArray(transformedData) || transformedData.length === 0) {
+    console.error("⚠️ Datos inválidos o vacíos para generar CSV");
     return "";
   }
 
   try {
-    // Obtener todos los encabezados posibles (unión de todas las propiedades)
-    const headerSet = new Set();
-    transformedData.forEach(item => {
-      if (item && typeof item === 'object') {
-        Object.keys(item).forEach(key => headerSet.add(key));
-      }
-    });
+    // Estructura exacta de columnas según el README
+    const expectedColumns = [
+      'Name',
+      'Ventas por Tienda y Division',
+      'Ventas Presidencia',
+      'Operativo Diario',
+      'Indicadores Presidencia',
+      'Tendencia Firme / No Firme, Ecommerce, Outlet',
+      'Ventas Viajes Palacio',
+      'Ventas Restaurantes',
+      'Operativo Mensual',
+      'Operativo Fin de Semana y Semanal',
+      'Operativo Anual',
+      'Item ID (auto generated)',
+      'Commentario'
+    ];
 
-    if (headerSet.size === 0) {
-      console.error("⚠️ No se encontraron propiedades en los datos");
-      return "";
-    }
+    // Crear encabezado
+    const headerRow = expectedColumns.join(',');
 
-    // Convertir a array y ordenar (Name primero, luego todos los demás, finalmente los Total_*)
-    const headers = Array.from(headerSet);
-    // console.log(`Encabezados encontrados (${headers.length}):`, headers);
-
-    headers.sort((a, b) => {
-      if (a === 'Name') return -1;
-      if (b === 'Name') return 1;
-      if (a.startsWith('Total_') && !b.startsWith('Total_')) return 1;
-      if (!a.startsWith('Total_') && b.startsWith('Total_')) return -1;
-      return a.localeCompare(b);
-    });
-
-    // Crear la fila de encabezados
-    const headerRow = headers.map(header => {
-      // Escapar comillas en los encabezados si es necesario
-      if (header.includes('"') || header.includes(',')) {
-        return `"${header.replace(/"/g, '""')}"`;
-      }
-      return header;
-    }).join(',');
-
-    // Crear las filas de datos
-    const rows = transformedData.map((item, index) => {
-      // Verificar que el item sea un objeto válido
-      if (!item || typeof item !== 'object') {
-        console.warn(`Item ${index} no es un objeto válido, se omitirá`);
-        return null;
-      }
-
-      const rowValues = headers.map(header => {
-        const value = item[header] !== undefined ? item[header] : '';
-
-        // Convertir valores no-string a string y escapar si es necesario
-        const stringValue = String(value);
-        if (stringValue.includes('"') || stringValue.includes(',') || stringValue.includes('\n')) {
-          return `"${stringValue.replace(/"/g, '""')}"`;
-        }
-        return stringValue;
+    // Crear filas de datos
+    const rows = transformedData.map(item => {
+      const rowValues = expectedColumns.map(column => {
+        const value = item[column] || '';
+        return value.includes(',') ? `"${value}"` : value;
       });
-
-      // Ejemplo para depuración
-      if (index === 0) {
-        // console.log("Primera fila de datos:", rowValues);
-      }
-
       return rowValues.join(',');
-    }).filter(row => row !== null); // Eliminar filas nulas
+    });
 
-    if (rows.length === 0) {
-      console.error("⚠️ No se generaron filas de datos válidas");
-      return "";
-    }
-
-    // Combinar encabezado y filas
+    // Generar CSV
     const csvContent = [headerRow, ...rows].join('\n');
-    console.log(`CSV generado exitosamente: ${rows.length} filas, ${csvContent.length} caracteres`);
-
+    console.log(`CSV generado exitosamente con ${rows.length} filas`);
     return csvContent;
+
   } catch (error) {
     console.error("Error al generar CSV:", error);
     return "";

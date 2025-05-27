@@ -6,6 +6,8 @@ import axios from 'axios';
 import { apiService as remoteApiService } from './apiService';
 import { localApiService } from './localApiService';
 import { localCsvService } from './localCsvService';
+const API_URL = process.env.REACT_APP_API_URL || 'https://f15rf7qk0g.execute-api.us-east-1.amazonaws.com/dev';
+
 
 // FORZAR el uso de servicios locales para procesar CSV localmente
 const useLocalServices = true;
@@ -15,7 +17,7 @@ console.log('FORZANDO uso de servicios locales para procesamiento de CSV:', useL
 
 // Exportar los servicios adecuados
 export const apiService = axios.create({
-  baseURL: 'http://localhost:3001'
+  baseURL: API_URL
 });; 
 
 // Usar localCsvService para ambos servicios

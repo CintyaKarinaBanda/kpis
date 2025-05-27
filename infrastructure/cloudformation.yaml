@@ -6,16 +6,16 @@ Parameters:
     Type: String
     Default: dev
     AllowedValues:
-      - dev
-      - test
-      - prod
+    - dev
+    - test
+    - prod
     Description: Entorno de despliegue
-  
+
   DomainName:
     Type: String
     Description: Nombre de dominio para el frontend (ej. kpi-dashboard.example.com)
     Default: kpi-dashboard.example.com
-  
+
   CertificateArn:
     Type: String
     Description: ARN del certificado SSL para CloudFront (opcional)
@@ -27,7 +27,7 @@ Parameters:
     Default: admin@example.com
 
 Conditions:
-  HasCertificate: !Not [!Equals [!Ref CertificateArn, '']]
+  HasCertificate: !Not [ !Equals [ !Ref CertificateArn, '' ] ]
 
 Resources:
   # =========================================================================
@@ -35,7 +35,7 @@ Resources:
   # =========================================================================
   FrontendBucket:
     Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
+    DeletionPolicy: Delete
     Properties:
       BucketName: !Sub '${Environment}-kpi-dashboard-frontend'
       AccessControl: Private
@@ -46,13 +46,13 @@ Resources:
         RestrictPublicBuckets: true
       BucketEncryption:
         ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
       VersioningConfiguration:
         Status: Enabled
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   CSVBucket:
     Type: AWS::S3::Bucket
@@ -67,31 +67,31 @@ Resources:
         RestrictPublicBuckets: true
       BucketEncryption:
         ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
       LifecycleConfiguration:
         Rules:
-          - Id: TransitionToInfrequentAccess
-            Status: Enabled
-            Transitions:
-              - TransitionInDays: 30
-                StorageClass: STANDARD_IA
+        - Id: TransitionToInfrequentAccess
+          Status: Enabled
+          Transitions:
+          - TransitionInDays: 30
+            StorageClass: STANDARD_IA
       CorsConfiguration:
         CorsRules:
-          - AllowedHeaders:
-              - '*'
-            AllowedMethods:
-              - GET
-              - PUT
-              - POST
-              - DELETE
-              - HEAD
-            AllowedOrigins:
-              - !Sub 'https://${DomainName}'
-            MaxAge: 3600
+        - AllowedHeaders:
+          - '*'
+          AllowedMethods:
+          - GET
+          - PUT
+          - POST
+          - DELETE
+          - HEAD
+          AllowedOrigins:
+          - !Sub 'https://${DomainName}'
+          MaxAge: 3600
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   # =========================================================================
   # CloudFront Distribution
@@ -107,32 +107,31 @@ Resources:
     Properties:
       DistributionConfig:
         Aliases:
-          - !If [HasCertificate, !Ref DomainName, !Ref 'AWS::NoValue']
+        - !If [ HasCertificate, !Ref DomainName, !Ref 'AWS::NoValue' ]
         Origins:
-          - DomainName: !GetAtt FrontendBucket.RegionalDomainName
-            Id: S3Origin
-            S3OriginConfig:
-              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
+        - DomainName: !GetAtt FrontendBucket.RegionalDomainName
+          Id: S3Origin
+          S3OriginConfig:
+            OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
         Enabled: true
         DefaultRootObject: index.html
         HttpVersion: http2
         PriceClass: PriceClass_100
-        ViewerCertificate:
-          !If
-            - HasCertificate
-            - AcmCertificateArn: !Ref CertificateArn
-              MinimumProtocolVersion: TLSv1.2_2021
-              SslSupportMethod: sni-only
-            - CloudFrontDefaultCertificate: true
+        ViewerCertificate: !If
+          - HasCertificate
+          - AcmCertificateArn: !Ref CertificateArn
+            MinimumProtocolVersion: TLSv1.2_2021
+            SslSupportMethod: sni-only
+          - CloudFrontDefaultCertificate: true
         DefaultCacheBehavior:
           AllowedMethods:
-            - GET
-            - HEAD
-            - OPTIONS
+          - GET
+          - HEAD
+          - OPTIONS
           CachedMethods:
-            - GET
-            - HEAD
-            - OPTIONS
+          - GET
+          - HEAD
+          - OPTIONS
           Compress: true
           DefaultTTL: 86400
           ForwardedValues:
@@ -142,16 +141,16 @@ Resources:
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: redirect-to-https
         CustomErrorResponses:
-          - ErrorCode: 404
-            ResponseCode: 200
-            ResponsePagePath: /index.html
-          - ErrorCode: 403
-            ResponseCode: 200
-            ResponsePagePath: /index.html
+        - ErrorCode: 404
+          ResponseCode: 200
+          ResponsePagePath: /index.html
+        - ErrorCode: 403
+          ResponseCode: 200
+          ResponsePagePath: /index.html
         WebACLId: !GetAtt WebACL.Arn
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   FrontendBucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -159,12 +158,12 @@ Resources:
       Bucket: !Ref FrontendBucket
       PolicyDocument:
         Statement:
-          - Action:
-              - s3:GetObject
-            Effect: Allow
-            Resource: !Sub '${FrontendBucket.Arn}/*'
-            Principal:
-              CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
+        - Action:
+          - s3:GetObject
+          Effect: Allow
+          Resource: !Sub '${FrontendBucket.Arn}/*'
+          Principal:
+            CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
 
   # =========================================================================
   # DynamoDB Tables
@@ -175,27 +174,27 @@ Resources:
       TableName: !Sub '${Environment}-kpi-dashboard-users'
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: userId
-          AttributeType: S
-        - AttributeName: email
-          AttributeType: S
+      - AttributeName: userId
+        AttributeType: S
+      - AttributeName: email
+        AttributeType: S
       KeySchema:
-        - AttributeName: userId
-          KeyType: HASH
+      - AttributeName: userId
+        KeyType: HASH
       GlobalSecondaryIndexes:
-        - IndexName: EmailIndex
-          KeySchema:
-            - AttributeName: email
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
+      - IndexName: EmailIndex
+        KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
       SSESpecification:
         SSEEnabled: true
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   KPIDataTable:
     Type: AWS::DynamoDB::Table
@@ -203,35 +202,35 @@ Resources:
       TableName: !Sub '${Environment}-kpi-dashboard-data'
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-        - AttributeName: date
-          AttributeType: S
-        - AttributeName: category
-          AttributeType: S
+      - AttributeName: id
+        AttributeType: S
+      - AttributeName: date
+        AttributeType: S
+      - AttributeName: category
+        AttributeType: S
       KeySchema:
-        - AttributeName: id
-          KeyType: HASH
+      - AttributeName: id
+        KeyType: HASH
       GlobalSecondaryIndexes:
-        - IndexName: DateIndex
-          KeySchema:
-            - AttributeName: date
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-        - IndexName: CategoryIndex
-          KeySchema:
-            - AttributeName: category
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
+      - IndexName: DateIndex
+        KeySchema:
+        - AttributeName: date
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+      - IndexName: CategoryIndex
+        KeySchema:
+        - AttributeName: category
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
       SSESpecification:
         SSEEnabled: true
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   ConfigTable:
     Type: AWS::DynamoDB::Table
@@ -239,27 +238,27 @@ Resources:
       TableName: !Sub '${Environment}-kpi-dashboard-config'
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: configId
-          AttributeType: S
-        - AttributeName: userId
-          AttributeType: S
+      - AttributeName: configId
+        AttributeType: S
+      - AttributeName: userId
+        AttributeType: S
       KeySchema:
-        - AttributeName: configId
-          KeyType: HASH
+      - AttributeName: configId
+        KeyType: HASH
       GlobalSecondaryIndexes:
-        - IndexName: UserConfigIndex
-          KeySchema:
-            - AttributeName: userId
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
+      - IndexName: UserConfigIndex
+        KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
       SSESpecification:
         SSEEnabled: true
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   # =========================================================================
   # Cognito User Pool
@@ -271,7 +270,7 @@ Resources:
       AdminCreateUserConfig:
         AllowAdminCreateUserOnly: true
       AutoVerifiedAttributes:
-        - email
+      - email
       MfaConfiguration: 'OFF'
       Policies:
         PasswordPolicy:
@@ -281,16 +280,16 @@ Resources:
           RequireSymbols: true
           RequireUppercase: true
       Schema:
-        - Name: email
-          AttributeDataType: String
-          Mutable: true
-          Required: true
-        - Name: name
-          AttributeDataType: String
-          Mutable: true
-          Required: true
+      - Name: email
+        AttributeDataType: String
+        Mutable: true
+        Required: true
+      - Name: name
+        AttributeDataType: String
+        Mutable: true
+        Required: true
       UsernameAttributes:
-        - email
+      - email
       UserPoolTags:
         Environment: !Ref Environment
 
@@ -301,11 +300,11 @@ Resources:
       GenerateSecret: false
       UserPoolId: !Ref UserPool
       ExplicitAuthFlows:
-        - ALLOW_USER_SRP_AUTH
-        - ALLOW_REFRESH_TOKEN_AUTH
+      - ALLOW_USER_SRP_AUTH
+      - ALLOW_REFRESH_TOKEN_AUTH
       PreventUserExistenceErrors: ENABLED
       SupportedIdentityProviders:
-        - COGNITO
+      - COGNITO
 
   # =========================================================================
   # Lambda Functions
@@ -316,53 +315,53 @@ Resources:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
-        - PolicyName: KPIDashboardLambdaPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - dynamodb:GetItem
-                  - dynamodb:PutItem
-                  - dynamodb:UpdateItem
-                  - dynamodb:DeleteItem
-                  - dynamodb:Query
-                  - dynamodb:Scan
-                  - dynamodb:BatchWriteItem
-                Resource:
-                  - !GetAtt UsersTable.Arn
-                  - !GetAtt KPIDataTable.Arn
-                  - !GetAtt ConfigTable.Arn
-                  - !Sub '${UsersTable.Arn}/index/*'
-                  - !Sub '${KPIDataTable.Arn}/index/*'
-                  - !Sub '${ConfigTable.Arn}/index/*'
-              - Effect: Allow
-                Action:
-                  - s3:GetObject
-                  - s3:PutObject
-                  - s3:DeleteObject
-                  - s3:ListBucket
-                Resource:
-                  - !GetAtt CSVBucket.Arn
-                  - !Sub '${CSVBucket.Arn}/*'
-              - Effect: Allow
-                Action:
-                  - cognito-idp:AdminCreateUser
-                  - cognito-idp:AdminSetUserPassword
-                  - cognito-idp:AdminUpdateUserAttributes
-                  - cognito-idp:AdminDeleteUser
-                Resource: !GetAtt UserPool.Arn
-              - Effect: Allow
-                Action:
-                  - sns:Publish
-                Resource: !Ref NotificationTopic
+      - PolicyName: KPIDashboardLambdaPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:BatchWriteItem
+            Resource:
+            - !GetAtt UsersTable.Arn
+            - !GetAtt KPIDataTable.Arn
+            - !GetAtt ConfigTable.Arn
+            - !Sub '${UsersTable.Arn}/index/*'
+            - !Sub '${KPIDataTable.Arn}/index/*'
+            - !Sub '${ConfigTable.Arn}/index/*'
+          - Effect: Allow
+            Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+            - s3:ListBucket
+            Resource:
+            - !GetAtt CSVBucket.Arn
+            - !Sub '${CSVBucket.Arn}/*'
+          - Effect: Allow
+            Action:
+            - cognito-idp:AdminCreateUser
+            - cognito-idp:AdminSetUserPassword
+            - cognito-idp:AdminUpdateUserAttributes
+            - cognito-idp:AdminDeleteUser
+            Resource: !GetAtt UserPool.Arn
+          - Effect: Allow
+            Action:
+            - sns:Publish
+            Resource: !Ref NotificationTopic
 
   AuthFunction:
     Type: AWS::Lambda::Function
@@ -390,8 +389,8 @@ Resources:
           CONFIG_TABLE: !Ref ConfigTable
           ENVIRONMENT: !Ref Environment
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   CSVProcessorFunction:
     Type: AWS::Lambda::Function
@@ -418,8 +417,8 @@ Resources:
           NOTIFICATION_TOPIC: !Ref NotificationTopic
           ENVIRONMENT: !Ref Environment
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   APIFunction:
     Type: AWS::Lambda::Function
@@ -447,8 +446,8 @@ Resources:
           CSV_BUCKET: !Ref CSVBucket
           ENVIRONMENT: !Ref Environment
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   # =========================================================================
   # API Gateway
@@ -460,10 +459,10 @@ Resources:
       Description: API para el dashboard de KPIs operativos
       EndpointConfiguration:
         Types:
-          - REGIONAL
+        - REGIONAL
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   ApiGatewayRootMethod:
     Type: AWS::ApiGateway::Method
@@ -472,25 +471,25 @@ Resources:
       HttpMethod: OPTIONS
       Integration:
         IntegrationResponses:
-          - StatusCode: 200
-            ResponseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS'"
-              method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
-            ResponseTemplates:
-              application/json: ''
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            method.response.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS'"
+            method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
+          ResponseTemplates:
+            application/json: ''
         PassthroughBehavior: WHEN_NO_MATCH
         RequestTemplates:
           application/json: '{"statusCode": 200}'
         Type: MOCK
       MethodResponses:
-        - StatusCode: 200
-          ResponseParameters:
-            method.response.header.Access-Control-Allow-Headers: true
-            method.response.header.Access-Control-Allow-Methods: true
-            method.response.header.Access-Control-Allow-Origin: true
-          ResponseModels:
-            application/json: 'Empty'
+      - StatusCode: 200
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Headers: true
+          method.response.header.Access-Control-Allow-Methods: true
+          method.response.header.Access-Control-Allow-Origin: true
+        ResponseModels:
+          application/json: 'Empty'
       ResourceId: !GetAtt ApiGateway.RootResourceId
       RestApiId: !Ref ApiGateway
 
@@ -520,25 +519,25 @@ Resources:
       HttpMethod: OPTIONS
       Integration:
         IntegrationResponses:
-          - StatusCode: 200
-            ResponseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
-              method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
-            ResponseTemplates:
-              application/json: ''
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+            method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
+          ResponseTemplates:
+            application/json: ''
         PassthroughBehavior: WHEN_NO_MATCH
         RequestTemplates:
           application/json: '{"statusCode": 200}'
         Type: MOCK
       MethodResponses:
-        - StatusCode: 200
-          ResponseParameters:
-            method.response.header.Access-Control-Allow-Headers: true
-            method.response.header.Access-Control-Allow-Methods: true
-            method.response.header.Access-Control-Allow-Origin: true
-          ResponseModels:
-            application/json: 'Empty'
+      - StatusCode: 200
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Headers: true
+          method.response.header.Access-Control-Allow-Methods: true
+          method.response.header.Access-Control-Allow-Origin: true
+        ResponseModels:
+          application/json: 'Empty'
       ResourceId: !Ref AuthResource
       RestApiId: !Ref ApiGateway
 
@@ -569,25 +568,25 @@ Resources:
       HttpMethod: OPTIONS
       Integration:
         IntegrationResponses:
-          - StatusCode: 200
-            ResponseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
-              method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
-            ResponseTemplates:
-              application/json: ''
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+            method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
+          ResponseTemplates:
+            application/json: ''
         PassthroughBehavior: WHEN_NO_MATCH
         RequestTemplates:
           application/json: '{"statusCode": 200}'
         Type: MOCK
       MethodResponses:
-        - StatusCode: 200
-          ResponseParameters:
-            method.response.header.Access-Control-Allow-Headers: true
-            method.response.header.Access-Control-Allow-Methods: true
-            method.response.header.Access-Control-Allow-Origin: true
-          ResponseModels:
-            application/json: 'Empty'
+      - StatusCode: 200
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Headers: true
+          method.response.header.Access-Control-Allow-Methods: true
+          method.response.header.Access-Control-Allow-Origin: true
+        ResponseModels:
+          application/json: 'Empty'
       ResourceId: !Ref CSVResource
       RestApiId: !Ref ApiGateway
 
@@ -618,25 +617,25 @@ Resources:
       HttpMethod: OPTIONS
       Integration:
         IntegrationResponses:
-          - StatusCode: 200
-            ResponseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
-              method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
-            ResponseTemplates:
-              application/json: ''
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+            method.response.header.Access-Control-Allow-Origin: !Sub "'https://${DomainName}'"
+          ResponseTemplates:
+            application/json: ''
         PassthroughBehavior: WHEN_NO_MATCH
         RequestTemplates:
           application/json: '{"statusCode": 200}'
         Type: MOCK
       MethodResponses:
-        - StatusCode: 200
-          ResponseParameters:
-            method.response.header.Access-Control-Allow-Headers: true
-            method.response.header.Access-Control-Allow-Methods: true
-            method.response.header.Access-Control-Allow-Origin: true
-          ResponseModels:
-            application/json: 'Empty'
+      - StatusCode: 200
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Headers: true
+          method.response.header.Access-Control-Allow-Methods: true
+          method.response.header.Access-Control-Allow-Origin: true
+        ResponseModels:
+          application/json: 'Empty'
       ResourceId: !Ref ApiResource
       RestApiId: !Ref ApiGateway
 
@@ -648,17 +647,17 @@ Resources:
       IdentitySource: method.request.header.Authorization
       RestApiId: !Ref ApiGateway
       ProviderARNs:
-        - !GetAtt UserPool.Arn
+      - !GetAtt UserPool.Arn
 
   ApiGatewayDeployment:
     Type: AWS::ApiGateway::Deployment
     DependsOn:
-      - AuthMethod
-      - CSVMethod
-      - ApiMethod
-      - AuthOptionsMethod
-      - CSVOptionsMethod
-      - ApiOptionsMethod
+    - AuthMethod
+    - CSVMethod
+    - ApiMethod
+    - AuthOptionsMethod
+    - CSVOptionsMethod
+    - ApiOptionsMethod
     Properties:
       RestApiId: !Ref ApiGateway
       StageName: !Ref Environment
@@ -698,9 +697,9 @@ Resources:
       Principal: s3.amazonaws.com
       SourceArn: !GetAtt CSVBucket.Arn
 
-# Nota: Las notificaciones de S3 deben configurarse manualmente después del despliegue
-# usando la consola de AWS o la CLI con el siguiente comando:
-# aws s3api put-bucket-notification-configuration --bucket [NOMBRE-BUCKET] --notification-configuration '{"LambdaFunctionConfigurations":[{"LambdaFunctionArn":"[ARN-LAMBDA]","Events":["s3:ObjectCreated:*"],"Filter":{"Key":{"FilterRules":[{"Name":"suffix","Value":".csv"}]}}}]}'
+  # Nota: Las notificaciones de S3 deben configurarse manualmente después del despliegue
+  # usando la consola de AWS o la CLI con el siguiente comando:
+  # aws s3api put-bucket-notification-configuration --bucket [NOMBRE-BUCKET] --notification-configuration '{"LambdaFunctionConfigurations":[{"LambdaFunctionArn":"[ARN-LAMBDA]","Events":["s3:ObjectCreated:*"],"Filter":{"Key":{"FilterRules":[{"Name":"suffix","Value":".csv"}]}}}]}'
 
   # =========================================================================
   # SNS Topic for Notifications
@@ -711,8 +710,8 @@ Resources:
       TopicName: !Sub '${Environment}-kpi-dashboard-notifications'
       DisplayName: 'KPI Dashboard Notifications'
       Tags:
-        - Key: Environment
-          Value: !Ref Environment
+      - Key: Environment
+        Value: !Ref Environment
 
   NotificationSubscription:
     Type: AWS::SNS::Subscription
@@ -736,42 +735,42 @@ Resources:
         MetricName: !Sub '${Environment}-kpi-dashboard-waf'
         SampledRequestsEnabled: true
       Rules:
-        - Name: AWSManagedRulesCommonRuleSet
-          Priority: 0
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: AWSManagedRulesCommonRuleSet
-            SampledRequestsEnabled: true
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesCommonRuleSet
-        - Name: AWSManagedRulesKnownBadInputsRuleSet
-          Priority: 1
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: AWSManagedRulesKnownBadInputsRuleSet
-            SampledRequestsEnabled: true
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesKnownBadInputsRuleSet
-        - Name: RateBasedRule
-          Priority: 2
-          Action:
-            Block: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: RateBasedRule
-            SampledRequestsEnabled: true
-          Statement:
-            RateBasedStatement:
-              Limit: 1000
-              AggregateKeyType: IP
+      - Name: AWSManagedRulesCommonRuleSet
+        Priority: 0
+        OverrideAction:
+          None: {}
+        VisibilityConfig:
+          CloudWatchMetricsEnabled: true
+          MetricName: AWSManagedRulesCommonRuleSet
+          SampledRequestsEnabled: true
+        Statement:
+          ManagedRuleGroupStatement:
+            VendorName: AWS
+            Name: AWSManagedRulesCommonRuleSet
+      - Name: AWSManagedRulesKnownBadInputsRuleSet
+        Priority: 1
+        OverrideAction:
+          None: {}
+        VisibilityConfig:
+          CloudWatchMetricsEnabled: true
+          MetricName: AWSManagedRulesKnownBadInputsRuleSet
+          SampledRequestsEnabled: true
+        Statement:
+          ManagedRuleGroupStatement:
+            VendorName: AWS
+            Name: AWSManagedRulesKnownBadInputsRuleSet
+      - Name: RateBasedRule
+        Priority: 2
+        Action:
+          Block: {}
+        VisibilityConfig:
+          CloudWatchMetricsEnabled: true
+          MetricName: RateBasedRule
+          SampledRequestsEnabled: true
+        Statement:
+          RateBasedStatement:
+            Limit: 1000
+            AggregateKeyType: IP
 
   # =========================================================================
   # CloudWatch Alarms
@@ -789,12 +788,12 @@ Resources:
       Threshold: 5
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
-        - Name: ApiName
-          Value: !Ref ApiGateway
-        - Name: Stage
-          Value: !Ref Environment
+      - Name: ApiName
+        Value: !Ref ApiGateway
+      - Name: Stage
+        Value: !Ref Environment
       AlarmActions:
-        - !Ref NotificationTopic
+      - !Ref NotificationTopic
 
   CSVProcessorErrorAlarm:
     Type: AWS::CloudWatch::Alarm
@@ -809,15 +808,15 @@ Resources:
       Threshold: 1
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
-        - Name: FunctionName
-          Value: !Ref CSVProcessorFunction
+      - Name: FunctionName
+        Value: !Ref CSVProcessorFunction
       AlarmActions:
-        - !Ref NotificationTopic
+      - !Ref NotificationTopic
 
 Outputs:
   FrontendURL:
     Description: URL del frontend
-    Value: !If [HasCertificate, !Sub 'https://${DomainName}', !Sub 'https://${FrontendDistribution.DomainName}']
+    Value: !If [ HasCertificate, !Sub 'https://${DomainName}', !Sub 'https://${FrontendDistribution.DomainName}' ]
 
   ApiEndpoint:
     Description: URL del API Gateway

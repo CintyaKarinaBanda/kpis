@@ -256,6 +256,7 @@ const MondayIntegration = () => {
     try {
       setLoading(true);
       const result = await mondayService.importToDashboard(selectedBoard);
+      console.log(result);
       setSnackbar({
         open: true,
         message: `Datos importados correctamente: ${result.importResult?.message || 'Operación exitosa'}`,

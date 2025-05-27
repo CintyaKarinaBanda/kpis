@@ -1,0 +1,455 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "KPI Dashboard - Infraestructura completa para visualización de KPIs operativos",
+  "Parameters": {
+    "Environment": {
+      "Type": "String",
+      "Default": "dev",
+      "AllowedValues": ["dev", "test", "prod"],
+      "Description": "Entorno de despliegue"
+    },
+    "DomainName": {
+      "Type": "String",
+      "Description": "Nombre de dominio para el frontend (ej. kpi-dashboard.example.com)",
+      "Default": "kpi-dashboard.example.com"
+    },
+    "CertificateArn": {
+      "Type": "String",
+      "Description": "ARN del certificado SSL para CloudFront (opcional)",
+      "Default": ""
+    },
+    "AdminEmail": {
+      "Type": "String",
+      "Description": "Email del administrador para notificaciones",
+      "Default": "admin@example.com"
+    }
+  },
+  "Conditions": {
+    "HasCertificate": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "CertificateArn"
+            },
+            ""
+          ]
+        }
+      ]
+    }
+  },
+  "Resources": {
+    "FrontendBucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "BucketName": {
+          "Fn::Sub": "${Environment}-kpi-dashboard-frontend"
+        },
+        "AccessControl": "Private",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "CSVBucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketName": {
+          "Fn::Sub": "${Environment}-kpi-dashboard-csv"
+        },
+        "AccessControl": "Private",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "Id": "TransitionToInfrequentAccess",
+              "Status": "Enabled",
+              "Transitions": [
+                {
+                  "TransitionInDays": 30,
+                  "StorageClass": "STANDARD_IA"
+                }
+              ]
+            }
+          ]
+        },
+        "CorsConfiguration": {
+          "CorsRules": [
+            {
+              "AllowedHeaders": ["*"],
+              "AllowedMethods": ["GET", "PUT", "POST", "DELETE", "HEAD"],
+              "AllowedOrigins": ["*"],
+              "MaxAge": 3600
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "CloudFrontOriginAccessIdentity": {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": {
+            "Fn::Sub": "OAI for ${Environment} KPI Dashboard"
+          }
+        }
+      }
+    },
+    "FrontendDistribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Origins": [
+            {
+              "DomainName": {
+                "Fn::GetAtt": ["FrontendBucket", "RegionalDomainName"]
+              },
+              "Id": "S3Origin",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Sub": "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
+                }
+              }
+            }
+          ],
+          "Enabled": true,
+          "DefaultRootObject": "index.html",
+          "HttpVersion": "http2",
+          "PriceClass": "PriceClass_100",
+          "ViewerCertificate": {
+            "CloudFrontDefaultCertificate": true
+          },
+          "DefaultCacheBehavior": {
+            "AllowedMethods": ["GET", "HEAD", "OPTIONS"],
+            "CachedMethods": ["GET", "HEAD", "OPTIONS"],
+            "Compress": true,
+            "DefaultTTL": 86400,
+            "ForwardedValues": {
+              "QueryString": false,
+              "Cookies": {
+                "Forward": "none"
+              }
+            },
+            "TargetOriginId": "S3Origin",
+            "ViewerProtocolPolicy": "redirect-to-https"
+          },
+          "CustomErrorResponses": [
+            {
+              "ErrorCode": 404,
+              "ResponseCode": 200,
+              "ResponsePagePath": "/index.html"
+            },
+            {
+              "ErrorCode": 403,
+              "ResponseCode": 200,
+              "ResponsePagePath": "/index.html"
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "FrontendBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "FrontendBucket"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": ["s3:GetObject"],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Sub": "${FrontendBucket.Arn}/*"
+              },
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": ["CloudFrontOriginAccessIdentity", "S3CanonicalUserId"]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "UsersTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": {
+          "Fn::Sub": "${Environment}-kpi-dashboard-users"
+        },
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "email",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "userId",
+            "KeyType": "HASH"
+          }
+        ],
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "EmailIndex",
+            "KeySchema": [
+              {
+                "AttributeName": "email",
+                "KeyType": "HASH"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            }
+          }
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "KPIDataTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": {
+          "Fn::Sub": "${Environment}-kpi-dashboard-data"
+        },
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "date",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "category",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "DateIndex",
+            "KeySchema": [
+              {
+                "AttributeName": "date",
+                "KeyType": "HASH"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            }
+          },
+          {
+            "IndexName": "CategoryIndex",
+            "KeySchema": [
+              {
+                "AttributeName": "category",
+                "KeyType": "HASH"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            }
+          }
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "ConfigTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": {
+          "Fn::Sub": "${Environment}-kpi-dashboard-config"
+        },
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "configId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "configId",
+            "KeyType": "HASH"
+          }
+        ],
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "UserConfigIndex",
+            "KeySchema": [
+              {
+                "AttributeName": "userId",
+                "KeyType": "HASH"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            }
+          }
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "NotificationTopic": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": {
+          "Fn::Sub": "${Environment}-kpi-dashboard-notifications"
+        },
+        "DisplayName": "KPI Dashboard Notifications",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": {
+              "Ref": "Environment"
+            }
+          }
+        ]
+      }
+    },
+    "NotificationSubscription": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Protocol": "email",
+        "Endpoint": {
+          "Ref": "AdminEmail"
+        },
+        "TopicArn": {
+          "Ref": "NotificationTopic"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "FrontendURL": {
+      "Description": "URL del frontend",
+      "Value": {
+        "Fn::Sub": "https://${FrontendDistribution.DomainName}"
+      }
+    },
+    "FrontendBucketName": {
+      "Description": "Nombre del bucket S3 para el frontend",
+      "Value": {
+        "Ref": "FrontendBucket"
+      }
+    },
+    "CSVBucketName": {
+      "Description": "Nombre del bucket S3 para archivos CSV",
+      "Value": {
+        "Ref": "CSVBucket"
+      }
+    }
+  }
+}

@@ -1,180 +1,270 @@
 #!/bin/bash
+# deploy-backend.sh - Deploy full backend API including Monday.com integration
 
-# Script para desplegar las funciones Lambda y actualizar la infraestructura
-
-# Configuración
-ENVIRONMENT="dev"
-REGION="us-east-1"
-STACK_NAME="${ENVIRONMENT}-kpi-dashboard"
-TEMPLATE_FILE="../infrastructure/cloudformation-update.yaml"
-LAMBDA_DIR="../backend/lambda"
-OUTPUT_DIR="./build"
-
-# Colores para mensajes
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
+# Colors for messages
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
 
-echo -e "${YELLOW}Iniciando despliegue del backend para KPI Dashboard...${NC}"
-
-# Crear directorio de salida si no existe
-mkdir -p $OUTPUT_DIR
-
-# Empaquetar funciones Lambda
-echo -e "${YELLOW}Empaquetando funciones Lambda...${NC}"
-
-# Función para empaquetar una función Lambda
-package_lambda() {
-    FUNCTION_NAME=$1
-    HANDLER_FILE=$2
-    
-    echo -e "${YELLOW}Empaquetando $FUNCTION_NAME...${NC}"
-    
-    # Crear directorio temporal
-    TMP_DIR=$(mktemp -d)
-    
-    # Copiar archivo de handler
-    cp $LAMBDA_DIR/$HANDLER_FILE $TMP_DIR/index.js
-    
-    # Instalar dependencias si hay package.json
-    if [ -f "$LAMBDA_DIR/package.json" ]; then
-        cp $LAMBDA_DIR/package.json $TMP_DIR/
-        (cd $TMP_DIR && npm install --production)
-    fi
-    
-    # Crear archivo ZIP
-    (cd $TMP_DIR && zip -r $OUTPUT_DIR/$FUNCTION_NAME.zip .)
-    
-    # Verificar que el archivo ZIP se creó correctamente
-    if [ ! -f "$OUTPUT_DIR/$FUNCTION_NAME.zip" ]; then
-        echo -e "${RED}Error: No se pudo crear el archivo $OUTPUT_DIR/$FUNCTION_NAME.zip${NC}"
-        exit 1
-    fi
-    
-    # Limpiar
-    rm -rf $TMP_DIR
-    
-    echo -e "${GREEN}$FUNCTION_NAME empaquetado correctamente.${NC}"
+# Function to display messages
+print_message() {
+  echo -e "${2}${1}${NC}"
 }
 
-# Empaquetar cada función
-package_lambda "process-csv" "process-csv.js"
-package_lambda "get-kpi-data" "get-kpi-data.js"
-package_lambda "get-kpi-summary" "get-kpi-summary.js"
-package_lambda "upload-csv" "upload-csv.js"
+# Parameters
+REGION="us-east-1"
+ENVIRONMENT="dev"
+BUILD_DIR="./build"
+LAMBDA_NAME="${ENVIRONMENT}-backend-api"
+API_ID="f15rf7qk0g"  # Your existing API Gateway ID
+MONDAY_API_KEY="eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjM5Njg0MzYxNywiYWFpIjoxMSwidWlkIjoyODU5NDIyNiwiaWFkIjoiMjAyNC0wOC0xNFQwMDoyODo0MC4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6NTAxOTQ4MSwicmduIjoidXNlMSJ9.Ei0Eo7mGkNVUJSdEgXj0jMbgLbQ1kneKoHmN3QRZ454"
+JWT_SECRET="kpi-dashboard-secret-key"
 
-# Actualizar la pila de CloudFormation
-echo -e "${YELLOW}Actualizando la pila de CloudFormation...${NC}"
+print_message "Starting deployment of full backend API..." "$GREEN"
 
-# Verificar si la pila existe
-STACK_EXISTS=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --region $REGION 2>&1 || echo "STACK_NOT_EXIST")
+# Create build directory
+mkdir -p $BUILD_DIR
 
-if [[ $STACK_EXISTS == *"STACK_NOT_EXIST"* ]]; then
-    echo -e "${YELLOW}La pila no existe. Creando nueva pila...${NC}"
-    
-    # Crear la pila
-    aws cloudformation create-stack \
-        --stack-name $STACK_NAME \
-        --template-body file://$TEMPLATE_FILE \
-        --capabilities CAPABILITY_NAMED_IAM \
-        --parameters ParameterKey=Environment,ParameterValue=$ENVIRONMENT \
-        --region $REGION
-    
-    # Esperar a que se complete la creación
-    echo -e "${YELLOW}Esperando a que se complete la creación de la pila...${NC}"
-    aws cloudformation wait stack-create-complete --stack-name $STACK_NAME --region $REGION
-    
-    # Verificar si la creación fue exitosa
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: La creación de la pila falló. Revisa los logs de CloudFormation.${NC}"
-        exit 1
-    fi
-else
-    echo -e "${YELLOW}La pila existe. Actualizando...${NC}"
-    
-    # Actualizar la pila
-    aws cloudformation update-stack \
-        --stack-name $STACK_NAME \
-        --template-body file://$TEMPLATE_FILE \
-        --capabilities CAPABILITY_NAMED_IAM \
-        --parameters ParameterKey=Environment,ParameterValue=$ENVIRONMENT \
-        --region $REGION
-    
-    # Esperar a que se complete la actualización
-    echo -e "${YELLOW}Esperando a que se complete la actualización de la pila...${NC}"
-    aws cloudformation wait stack-update-complete --stack-name $STACK_NAME --region $REGION
-    
-    # Verificar si la actualización fue exitosa
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: La actualización de la pila falló. Revisa los logs de CloudFormation.${NC}"
-        exit 1
-    fi
-fi
+# Create Lambda package directory
+mkdir -p lambda-package
+cd lambda-package
 
-# Verificar si la pila existe antes de continuar
-STACK_EXISTS=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --region $REGION 2>&1 || echo "STACK_NOT_EXIST")
-
-if [[ $STACK_EXISTS == *"STACK_NOT_EXIST"* ]]; then
-    echo -e "${RED}Error: La pila no existe después de la creación/actualización.${NC}"
-    exit 1
-fi
-
-# Actualizar el código de las funciones Lambda
-echo -e "${YELLOW}Actualizando el código de las funciones Lambda...${NC}"
-
-# Función para actualizar una función Lambda
-update_lambda() {
-    FUNCTION_NAME="${ENVIRONMENT}-kpi-dashboard-$1"
-    ZIP_FILE="$OUTPUT_DIR/$1.zip"
-    
-    # Verificar que el archivo ZIP existe
-    if [ ! -f "$ZIP_FILE" ]; then
-        echo -e "${RED}Error: El archivo $ZIP_FILE no existe.${NC}"
-        return 1
-    fi
-    
-    echo -e "${YELLOW}Actualizando $FUNCTION_NAME...${NC}"
-    
-    # Verificar si la función Lambda existe
-    FUNCTION_EXISTS=$(aws lambda get-function --function-name $FUNCTION_NAME --region $REGION 2>&1 || echo "FUNCTION_NOT_EXIST")
-    
-    if [[ $FUNCTION_EXISTS == *"FUNCTION_NOT_EXIST"* ]]; then
-        echo -e "${RED}Error: La función $FUNCTION_NAME no existe.${NC}"
-        return 1
-    fi
-    
-    # Actualizar el código de la función
-    aws lambda update-function-code \
-        --function-name $FUNCTION_NAME \
-        --zip-file fileb://$ZIP_FILE \
-        --region $REGION
-    
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: No se pudo actualizar la función $FUNCTION_NAME.${NC}"
-        return 1
-    fi
-    
-    echo -e "${GREEN}$FUNCTION_NAME actualizado correctamente.${NC}"
-    return 0
+# Create package.json with all required dependencies
+cat > package.json << 'EOL'
+{
+  "name": "backend-api",
+  "version": "1.0.0",
+  "description": "Full Backend API for KPI Dashboard",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "serverless-http": "^2.7.0",
+    "axios": "^0.21.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.5-lts.1",
+    "aws-sdk": "^2.1048.0",
+    "dotenv": "^10.0.0",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  }
 }
+EOL
 
-# Actualizar cada función
-update_lambda "process-csv" || echo -e "${YELLOW}Omitiendo actualización de process-csv...${NC}"
-update_lambda "get-kpi-data" || echo -e "${YELLOW}Omitiendo actualización de get-kpi-data...${NC}"
-update_lambda "get-kpi-summary" || echo -e "${YELLOW}Omitiendo actualización de get-kpi-summary...${NC}"
-update_lambda "upload-csv" || echo -e "${YELLOW}Omitiendo actualización de upload-csv...${NC}"
+# Install dependencies
+print_message "Installing dependencies..." "$YELLOW"
+npm install --production
 
-# Obtener información de la pila
-echo -e "${YELLOW}Obteniendo información de la pila...${NC}"
-
-STACK_INFO=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs" --region $REGION 2>&1)
-
-if [[ $STACK_INFO == *"error"* ]]; then
-    echo -e "${RED}Error al obtener información de la pila.${NC}"
+# First, fix the path to your backend directory
+# Check where your backend directory is located relative to the script
+print_message "Checking backend directory location..." "$YELLOW"
+if [ -d "../backend" ]; then
+  BACKEND_PATH="../backend"
+elif [ -d "./backend" ]; then
+  BACKEND_PATH="./backend"
+elif [ -d "../../backend" ]; then
+  BACKEND_PATH="../../backend"
 else
-    echo -e "${GREEN}Información de la pila:${NC}"
-    echo "$STACK_INFO"
+  print_message "Cannot find backend directory. Please specify the correct path." "$RED"
+  exit 1
 fi
 
-echo -e "${GREEN}Despliegue completado.${NC}"
+print_message "Found backend directory at: $BACKEND_PATH" "$GREEN"
+
+# Copy the entire backend directory structure
+print_message "Copying backend files..." "$YELLOW"
+cp -r $BACKEND_PATH/* .
+
+# Create the main Lambda handler (index.js) that wraps your server.js
+cat > index.js << 'EOL'
+const serverless = require('serverless-http');
+const express = require('express');
+const app = require('./server');
+
+// Export the serverless handler
+module.exports.handler = serverless(app);
+EOL
+
+
+# Create ZIP file
+print_message "Creating deployment package..." "$YELLOW"
+zip -r ../$BUILD_DIR/backend-api.zip .
+
+# Go back to scripts directory
+cd ..
+
+# Create S3 bucket for CSV uploads if it doesn't exist
+S3_BUCKET="kpi-dashboard-uploads-${ENVIRONMENT}"
+print_message "Creating S3 bucket for CSV uploads if it doesn't exist..." "$YELLOW"
+if ! aws s3api head-bucket --bucket $S3_BUCKET --region $REGION 2>/dev/null; then
+  print_message "Creating S3 bucket: $S3_BUCKET" "$YELLOW"
+  aws s3api create-bucket \
+    --bucket $S3_BUCKET \
+    --region $REGION \
+    --create-bucket-configuration LocationConstraint=$REGION
+  
+  # Set CORS policy for the bucket
+  aws s3api put-bucket-cors \
+    --bucket $S3_BUCKET \
+    --cors-configuration '{
+      "CORSRules": [
+        {
+          "AllowedHeaders": ["*"],
+          "AllowedMethods": ["GET", "PUT", "POST", "DELETE"],
+          "AllowedOrigins": ["*"],
+          "ExposeHeaders": ["ETag"]
+        }
+      ]
+    }'
+else
+  print_message "S3 bucket $S3_BUCKET already exists" "$GREEN"
+fi
+
+# Create DynamoDB tables if they don't exist
+print_message "Creating DynamoDB tables if they don't exist..." "$YELLOW"
+KPI_TABLE="kpi-data-${ENVIRONMENT}"
+COMMENTS_TABLE="kpi-comments-${ENVIRONMENT}"
+
+# Create KPI table
+if ! aws dynamodb describe-table --table-name $KPI_TABLE --region $REGION &>/dev/null; then
+  print_message "Creating DynamoDB table: $KPI_TABLE" "$YELLOW"
+  aws dynamodb create-table \
+    --table-name $KPI_TABLE \
+    --attribute-definitions AttributeName=id,AttributeType=S \
+    --key-schema AttributeName=id,KeyType=HASH \
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+    --region $REGION
+else
+  print_message "DynamoDB table $KPI_TABLE already exists" "$GREEN"
+fi
+
+# Create Comments table
+if ! aws dynamodb describe-table --table-name $COMMENTS_TABLE --region $REGION &>/dev/null; then
+  print_message "Creating DynamoDB table: $COMMENTS_TABLE" "$YELLOW"
+  aws dynamodb create-table \
+    --table-name $COMMENTS_TABLE \
+    --attribute-definitions AttributeName=id,AttributeType=S \
+    --key-schema AttributeName=id,KeyType=HASH \
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+    --region $REGION
+else
+  print_message "DynamoDB table $COMMENTS_TABLE already exists" "$GREEN"
+fi
+
+# Create IAM role for Lambda if it doesn't exist
+ROLE_NAME="lambda-backend-api-role"
+print_message "Checking if IAM role exists..." "$YELLOW"
+
+if ! aws iam get-role --role-name $ROLE_NAME &>/dev/null; then
+  print_message "Creating IAM role: $ROLE_NAME" "$YELLOW"
+  
+  # Create trust policy document
+  cat > trust-policy.json << 'EOL'
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOL
+
+  # Create the role with trust policy
+  aws iam create-role \
+    --role-name $ROLE_NAME \
+    --assume-role-policy-document file://trust-policy.json
+
+  # Attach basic Lambda execution policy
+  aws iam attach-role-policy \
+    --role-name $ROLE_NAME \
+    --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    
+  # Attach S3 access policy
+  aws iam attach-role-policy \
+    --role-name $ROLE_NAME \
+    --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+    
+  # Attach DynamoDB access policy
+  aws iam attach-role-policy \
+    --role-name $ROLE_NAME \
+    --policy-arn arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+    
+  # Wait for role to propagate
+  print_message "Waiting for IAM role to propagate..." "$YELLOW"
+  sleep 10
+else
+  print_message "IAM role $ROLE_NAME already exists" "$GREEN"
+fi
+
+# Get the role ARN
+ROLE_ARN=$(aws iam get-role --role-name $ROLE_NAME --query 'Role.Arn' --output text)
+
+# Deploy Lambda function
+print_message "Deploying Lambda function..." "$YELLOW"
+
+# Check if function exists
+if aws lambda get-function --function-name $LAMBDA_NAME --region $REGION &>/dev/null; then
+  # Update existing function
+  print_message "Updating existing Lambda function..." "$YELLOW"
+  aws lambda update-function-code \
+    --function-name $LAMBDA_NAME \
+    --zip-file fileb://$BUILD_DIR/backend-api.zip \
+    --region $REGION
+  
+  # Update environment variables
+  aws lambda update-function-configuration \
+    --function-name $LAMBDA_NAME \
+    --environment "Variables={MONDAY_API_KEY=$MONDAY_API_KEY,JWT_SECRET=$JWT_SECRET,S3_BUCKET=$S3_BUCKET,KPI_TABLE=$KPI_TABLE,COMMENTS_TABLE=$COMMENTS_TABLE}" \
+    --region $REGION
+else
+  # Create new function
+  print_message "Creating new Lambda function..." "$YELLOW"
+  aws lambda create-function \
+    --function-name $LAMBDA_NAME \
+    --runtime nodejs18.x \
+    --handler index.handler \
+    --role "$ROLE_ARN" \
+    --zip-file fileb://$BUILD_DIR/backend-api.zip \
+    --timeout 30 \
+    --memory-size 512 \
+    --environment "Variables={MONDAY_API_KEY=$MONDAY_API_KEY,JWT_SECRET=$JWT_SECRET,S3_BUCKET=$S3_BUCKET,KPI_TABLE=$KPI_TABLE,COMMENTS_TABLE=$COMMENTS_TABLE}" \
+    --region $REGION
+fi
+
+# Deploy API
+print_message "Deploying API..." "$YELLOW"
+DEPLOYMENT_ID=$(aws apigateway create-deployment \
+  --rest-api-id $API_ID \
+  --stage-name $ENVIRONMENT \
+  --region $REGION \
+  --query 'id' \
+  --output text)
+
+print_message "API Gateway deployed with ID: $DEPLOYMENT_ID" "$GREEN"
+API_URL="https://$API_ID.execute-api.$REGION.amazonaws.com/$ENVIRONMENT"
+print_message "API Endpoint: $API_URL" "$GREEN"
+
+# Update frontend .env with API URL and Monday API key
+print_message "Updating frontend .env with API URL..." "$YELLOW"
+cd ../frontend
+echo "REACT_APP_API_URL=$API_URL" > .env
+echo "SKIP_PREFLIGHT_CHECK=true" >> .env
+echo "MONDAY_API_KEY=$MONDAY_API_KEY" >> .env
+cd - > /dev/null
+
+# Clean up
+rm -rf lambda-package
+
+print_message "Full backend API deployment completed successfully!" "$GREEN"
+print_message "Example endpoints:" "$GREEN"
+print_message "- Authentication: $API_URL/auth/login" "$GREEN"
+print_message "- CSV Upload: $API_URL/csv/upload" "$GREEN"
+print_message "- KPI Data: $API_URL/api/kpi/data" "$GREEN"
+print_message "- Monday.com Integration: $API_URL/api/monday/boards" "$GREEN"

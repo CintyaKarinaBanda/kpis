@@ -37,8 +37,8 @@ const MainLayout = ({ children, onLogout }) => {
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-    { text: 'Cargar CSV', icon: <UploadFileIcon />, path: '/upload' },
-    { text: 'Integración Monday', icon: <IntegrationInstructionsIcon />, path: '/monday' },
+    // { text: 'Cargar CSV', icon: <UploadFileIcon />, path: '/upload' },
+    // { text: 'Integración Monday', icon: <IntegrationInstructionsIcon />, path: '/monday' },
     { text: 'Configuración', icon: <SettingsIcon />, path: '/settings' },
   ];
 

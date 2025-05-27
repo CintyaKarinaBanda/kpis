@@ -1,40 +1,45 @@
 const fs = require('fs');
+const AWS = require('aws-sdk');
 const path = require('path');
 const mondayService = require('../services/mondayService');
 const csvController = require('./csvController');
 
-// Archivo para almacenar configuraciones de mapeo de Monday.com
-const MONDAY_CONFIG_FILE = path.join(__dirname, '../data/monday_config.json');
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
+});
 
-// Inicializar archivo de configuración si no existe
-if (!fs.existsSync(MONDAY_CONFIG_FILE)) {
-  fs.writeFileSync(MONDAY_CONFIG_FILE, JSON.stringify({
-    boards: [],
-    columnMappings: {}
-  }));
-}
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+const CONFIG_FILE_KEY = 'monday_config.json';
 
 // Cargar configuración de Monday.com
-const loadMondayConfig = () => {
+async function loadMondayConfig() {
   try {
-    const data = fs.readFileSync(MONDAY_CONFIG_FILE, 'utf8');
-    return JSON.parse(data);
+    const params = { Bucket: BUCKET_NAME, Key: CONFIG_FILE_KEY };
+    const data = await s3.getObject(params).promise();
+    return JSON.parse(data.Body.toString('utf-8'));
   } catch (error) {
-    console.error('Error al cargar configuración de Monday.com:', error);
+    console.error('Error cargando config desde S3:', error);
     return { boards: [], columnMappings: {} };
   }
-};
+}
 
-// Guardar configuración de Monday.com
-const saveMondayConfig = (config) => {
+async function saveMondayConfig(config) {
   try {
-    fs.writeFileSync(MONDAY_CONFIG_FILE, JSON.stringify(config, null, 2));
+    const params = {
+      Bucket: BUCKET_NAME,
+      Key: CONFIG_FILE_KEY,
+      Body: JSON.stringify(config, null, 2),
+      ContentType: 'application/json'
+    };
+    await s3.putObject(params).promise();
     return true;
   } catch (error) {
-    console.error('Error al guardar configuración de Monday.com:', error);
+    console.error('Error guardando config en S3:', error);
     return false;
   }
-};
+}
 
 // Controlador para obtener datos de un tablero de Monday.com
 exports.getMondayBoardData = async (req, res) => {

@@ -28,7 +28,8 @@ class MondayService {
   async getBoardData(boardId) {
     try {
       const response = await apiService.get(`/api/monday/board/${boardId}`);
-      console.log(response.data.boardData);
+      console.log(response.request.path);
+      
       return response.data.boardData;
     } catch (error) {
       console.error(`Error al obtener datos del tablero ${boardId}:`, error);
@@ -100,25 +101,29 @@ class MondayService {
     try {
       const response = await apiService.post(`/api/monday/board/${boardId}/import`);
 
+      console.log("RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES");
+      console.log(response);
+      
+
       //Nuevo
-      if (!response.data.filePath) {
-        throw new Error('No se recibió la ruta del archivo CSV en la respuesta');
+      if (!response.data.fileUrl) {
+        throw new Error('No se recibió la URL del archivo CSV en la respuesta');
       }
 
       // Obtener la ruta del archivo CSV
-      const filePath = response.data.filePath;
-      console.log(`Archivo CSV generado en: ${filePath}`);
+      const fileUrl = response.data.fileUrl;
 
       // Descargar el archivo CSV
-      const fileResponse = await apiService.get(`/api/monday/files?path=${encodeURIComponent(filePath)}`, {
-        responseType: 'blob' // Importante: especificar que queremos un blob
-      });
+      // Descargar el archivo CSV directamente desde S3 usando fetch
+      const fileResponse = await fetch(fileUrl);
+      if (!fileResponse.ok) {
+        throw new Error('Error al descargar el archivo desde S3');
+      }
 
-      console.log('Archivo descargado');
+      const fileBlob = await fileResponse.blob();
 
-      // Crear un objeto File a partir del blob descargado
-      const fileName = filePath.split('/').pop(); // Extraer el nombre del archivo de la ruta
-      const fileBlob = new Blob([fileResponse.data], { type: 'text/csv' });
+      // Extraer el nombre del archivo sin query params
+      const fileName = fileUrl.split('/').pop().split('?')[0];
       const file = new File([fileBlob], fileName, { type: 'text/csv' });
 
       // Procesar el archivo descargado

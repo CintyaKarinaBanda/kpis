@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL || 'https://f15rf7qk0g.execute-api.us-east-1.amazonaws.com/dev';
 const TOKEN_KEY = 'kpi_dashboard_token';
 const USER_KEY = 'kpi_dashboard_user';
 const CONFIG_KEY = 'kpi_dashboard_config';

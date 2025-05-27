@@ -139,6 +139,45 @@ if [ ! -z "$CERTIFICATE_ARN" ]; then
   PARAMS="$PARAMS ParameterKey=CertificateArn,ParameterValue=$CERTIFICATE_ARN"
 fi
 
+# Verificar si la pila está en estado DELETE_FAILED
+STACK_STATUS=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].StackStatus" --output text --region "$REGION" 2>/dev/null || echo "STACK_NOT_EXIST")
+print_message "Estado actual de la pila $STACK_NAME: $STACK_STATUS" "$YELLOW"
+
+if [[ "$STACK_STATUS" == "DELETE_FAILED" ]]; then
+  print_message "La pila está en estado DELETE_FAILED. Limpiando recursos protegidos..." "$YELLOW"
+  
+  # Forzar eliminación de recursos protegidos
+  # 1. Eliminar bucket S3
+  BUCKET_NAME="${ENVIRONMENT}-kpi-dashboard-csv"
+  print_message "Forzando eliminación del bucket S3: $BUCKET_NAME" "$YELLOW"
+  aws s3 rm s3://$BUCKET_NAME --recursive --force || true
+  aws s3api delete-bucket --bucket $BUCKET_NAME --region "$REGION" || true
+  
+  # 2. Eliminar tabla DynamoDB
+  TABLE_NAME="${ENVIRONMENT}-kpi-dashboard-data"
+  print_message "Forzando eliminación de la tabla DynamoDB: $TABLE_NAME" "$YELLOW"
+  aws dynamodb delete-table --table-name $TABLE_NAME --region "$REGION" || true
+  
+  # 3. Eliminar rol IAM
+  ROLE_NAME="${ENVIRONMENT}-kpi-dashboard-lambda-role"
+  print_message "Forzando eliminación del rol IAM: $ROLE_NAME" "$YELLOW"
+  POLICIES=$(aws iam list-attached-role-policies --role-name $ROLE_NAME --query "AttachedPolicies[].PolicyArn" --output text 2>/dev/null || echo "")
+  for POLICY in $POLICIES; do
+    aws iam detach-role-policy --role-name $ROLE_NAME --policy-arn $POLICY || true
+  done
+  aws iam delete-role --role-name $ROLE_NAME || true
+  
+  # Eliminar la pila fallida
+  print_message "Eliminando pila fallida..." "$YELLOW"
+  aws cloudformation delete-stack --stack-name "$STACK_NAME" --region "$REGION"
+  print_message "Esperando a que se complete la eliminación..." "$YELLOW"
+  aws cloudformation wait stack-delete-complete --stack-name "$STACK_NAME" --region "$REGION" || true
+  
+  # Esperar un momento para que se propaguen los cambios
+  print_message "Esperando 15 segundos para que se propaguen los cambios..." "$YELLOW"
+  sleep 15
+fi
+
 # Desplegar el stack de CloudFormation usando el archivo local
 print_message "Desplegando stack de CloudFormation: $STACK_NAME" "$YELLOW"
 aws cloudformation deploy \

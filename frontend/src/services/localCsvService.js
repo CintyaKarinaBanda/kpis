@@ -7,6 +7,7 @@ let uploadedFiles = [{
   size: 1024,
   lastModified: new Date().toISOString()
 }];
+
 let processedData = {
   totalRecords: 0,
   okCount: 0,
@@ -136,7 +137,7 @@ const processCSV = (file) => {
           // Procesar fecha
           const dateParts = date.split('/');
           if (dateParts.length === 3) {
-            const isoDate = `20${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+            const isoDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
             
             // Inicializar fecha si no existe
             if (!byDate[isoDate]) {

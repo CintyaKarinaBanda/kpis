@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAuthHeaders, getUserId } from './authService';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://vbpdqwho21.execute-api.us-east-1.amazonaws.com/dev';
+const API_URL = process.env.REACT_APP_API_URL || 'https://f15rf7qk0g.execute-api.us-east-1.amazonaws.com/dev';
 
 // Datos de demostración para simular KPIs
 const DEMO_SUMMARY = {

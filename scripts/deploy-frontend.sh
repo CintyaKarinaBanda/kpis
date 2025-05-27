@@ -86,7 +86,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Si no se proporcionaron parámetros, intentar obtenerlos del stack de CloudFormation
-if [ -z "$FRONTEND_BUCKET" ] || [ -z "$API_ENDPOINT" ] || [ -z "$USER_POOL_ID" ] || [ -z "$USER_POOL_CLIENT_ID" ]; then
+if [ -z "$FRONTEND_BUCKET" ]; then
   print_message "Obteniendo información del stack de CloudFormation..." "$YELLOW"
   
   # Obtener el bucket de frontend
@@ -102,8 +102,8 @@ if [ -z "$FRONTEND_BUCKET" ] || [ -z "$API_ENDPOINT" ] || [ -z "$USER_POOL_ID" ]
   if [ -z "$API_ENDPOINT" ]; then
     API_ENDPOINT=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='ApiEndpoint'].OutputValue" --output text --region "$REGION")
     if [ -z "$API_ENDPOINT" ]; then
-      print_message "No se pudo obtener el endpoint de la API del stack. Proporciona el parámetro --api-endpoint." "$RED"
-      exit 1
+      print_message "No se encontró el endpoint de la API en el stack. Usando un valor predeterminado." "$YELLOW"
+      API_ENDPOINT="https://api.example.com"  # Valor predeterminado
     fi
   fi
   
@@ -111,8 +111,8 @@ if [ -z "$FRONTEND_BUCKET" ] || [ -z "$API_ENDPOINT" ] || [ -z "$USER_POOL_ID" ]
   if [ -z "$USER_POOL_ID" ]; then
     USER_POOL_ID=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='UserPoolId'].OutputValue" --output text --region "$REGION")
     if [ -z "$USER_POOL_ID" ]; then
-      print_message "No se pudo obtener el ID del User Pool del stack. Proporciona el parámetro --user-pool-id." "$RED"
-      exit 1
+      print_message "No se encontró el ID del User Pool en el stack. Usando un valor vacío." "$YELLOW"
+      USER_POOL_ID=""  # Valor vacío
     fi
   fi
   
@@ -120,8 +120,8 @@ if [ -z "$FRONTEND_BUCKET" ] || [ -z "$API_ENDPOINT" ] || [ -z "$USER_POOL_ID" ]
   if [ -z "$USER_POOL_CLIENT_ID" ]; then
     USER_POOL_CLIENT_ID=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='UserPoolClientId'].OutputValue" --output text --region "$REGION")
     if [ -z "$USER_POOL_CLIENT_ID" ]; then
-      print_message "No se pudo obtener el ID del cliente del User Pool del stack. Proporciona el parámetro --client-id." "$RED"
-      exit 1
+      print_message "No se encontró el ID del cliente del User Pool en el stack. Usando un valor vacío." "$YELLOW"
+      USER_POOL_CLIENT_ID=""  # Valor vacío
     fi
   fi
 fi
@@ -129,18 +129,32 @@ fi
 print_message "Información para el despliegue del frontend:" "$GREEN"
 echo "REACT_APP_API_URL=$API_ENDPOINT"
 echo "S3_BUCKET=$FRONTEND_BUCKET"
-echo "USER_POOL_ID=$USER_POOL_ID"
-echo "USER_POOL_CLIENT_ID=$USER_POOL_CLIENT_ID"
+if [ ! -z "$USER_POOL_ID" ]; then
+  echo "USER_POOL_ID=$USER_POOL_ID"
+fi
+if [ ! -z "$USER_POOL_CLIENT_ID" ]; then
+  echo "USER_POOL_CLIENT_ID=$USER_POOL_CLIENT_ID"
+fi
 
 # Crear archivo .env para el frontend
 print_message "Creando archivo .env para el frontend..." "$YELLOW"
 cat > "../frontend/.env" << EOF
 REACT_APP_API_URL=$API_ENDPOINT
+REACT_APP_REGION=$REGION
+EOF
+
+# Agregar configuración de Cognito solo si tenemos los valores
+if [ ! -z "$USER_POOL_ID" ] && [ ! -z "$USER_POOL_CLIENT_ID" ]; then
+  cat >> "../frontend/.env" << EOF
 REACT_APP_USER_POOL_ID=$USER_POOL_ID
 REACT_APP_USER_POOL_CLIENT_ID=$USER_POOL_CLIENT_ID
-REACT_APP_REGION=$REGION
 REACT_APP_USE_COGNITO=true
 EOF
+else
+  cat >> "../frontend/.env" << EOF
+REACT_APP_USE_COGNITO=false
+EOF
+fi
 
 # Instalar aws-amplify si no está instalado
 print_message "Verificando dependencias..." "$YELLOW"

@@ -86,6 +86,7 @@ for dir in */; do
   dir=${dir%*/}
   print_message "Comprimiendo $dir..." "$YELLOW"
   cd "$dir"
+  # Usar zip estándar
   zip -r "../$dir.zip" ./*
   cd ..
 done

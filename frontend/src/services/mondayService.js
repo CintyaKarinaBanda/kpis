@@ -99,11 +99,7 @@ class MondayService {
    */
   async importToDashboard(boardId) {
     try {
-      const response = await apiService.post(`/api/monday/board/${boardId}/import`);
-
-      console.log("RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES");
-      console.log(response);
-      
+      const response = await apiService.post(`/api/monday/board/${boardId}/import`);      
 
       //Nuevo
       if (!response.data.fileUrl) {

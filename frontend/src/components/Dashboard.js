@@ -5,23 +5,20 @@ import { apiService, csvService } from '../services/serviceConfig';
 import { mondayService } from '../services/mondayService';
 import KPICard from './KPICard';
 
-// Colores para gráficos
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
-
 const MONDAY_BOARD_ID = "2205761827";
 
 // Nombres más cortos para las categorías (para mostrar en gráficos)
 const CATEGORY_SHORT_NAMES = {
-  'Ventas por Tienda y Division': 'Ventas Tienda',
-  'Ventas Presidencia': 'Ventas Pres.',
-  'Operativo Diario': 'Op. Diario',
-  'Indicadores Presidencia': 'Ind. Pres.',
-  'Tendencia Firme / No Firme': 'Tendencias',
-  'Ventas Viajes Palacio': 'Viajes',
-  'Ventas Restaurantes': 'Restaurantes',
-  'Operativo Mensual': 'Op. Mensual',
-  'Operativo Fin de Semana y Semanal': 'Op. Semanal',
-  'Operativo Anual': 'Op. Anual'
+  'Ventas por Tienda y Division': 'Ventas por Tienda y Division',
+  'Ventas Presidencia': 'Ventas Presidencia',
+  'Operativo Diario': 'Operativo Diario',
+  'Indicadores Presidencia': 'Indicadores Presidencia',
+  'Tendencia Firme / No Firme': 'Tendencia Firme / No Firme',
+  'Ventas Viajes Palacio': 'Ventas Viajes Palacio',
+  'Ventas Restaurantes': 'Ventas Restaurantes',
+  'Operativo Mensual': 'Operativo Mensual',
+  'Operativo Fin de Semana y Semanal': 'Operativo Fin de Semana y Semanal',
+  'Operativo Anual': 'Operativo Anual'
 };
 
 // Función para formatear fechas ISO a formato DD/MM/YYYY
@@ -90,8 +87,6 @@ const Dashboard = ({ userConfig }) => {
   const [shouldLoadInitialData, setShouldLoadInitialData] = useState(true);
   const [trendReady, setTrendReady] = useState(false);
 
-
-
   // Aplicar configuración de usuario
   useEffect(() => {
     if (userConfig && userConfig.dashboard && userConfig.dashboard.visibleWidgets) {
@@ -116,15 +111,15 @@ const Dashboard = ({ userConfig }) => {
   useEffect(() => {
     if (
       shouldLoadInitialData &&
-      summary &&
       mondayCategoryMapping &&
+      Object.keys(mondayCategoryMapping).length > 0 && // ← Verificar que tiene datos
       !loading &&
       !mondayLoading
     ) {
       loadData();
-      setShouldLoadInitialData(false); // Evita el bucle
+      setShouldLoadInitialData(false);
     }
-  }, [shouldLoadInitialData, summary, mondayCategoryMapping, loading, mondayLoading]);
+  }, [shouldLoadInitialData, mondayCategoryMapping, loading, mondayLoading]);
 
 
   // Efecto para cargar datos cuando cambia el período o el rango personalizado
@@ -142,30 +137,38 @@ const Dashboard = ({ userConfig }) => {
     }
   }, [shouldLoadData]);
 
-
-
   const processMondayData = (boardData) => {
     const categoryMapping = {};
 
     if (boardData && boardData.items_page && boardData.items_page.items) {
       boardData.items_page.items.forEach((item) => {
         if (item.column_values && item.name) {
-          // Filtrar solo las columnas de tipo status (KPI) que tienen valores
+          // ✅ EXTRAER COMENTARIOS
+          const commentColumn = item.column_values.find(col =>
+            col.column && (
+              col.column.title.toLowerCase().includes('comentario') ||
+              col.column.title.toLowerCase().includes('comment') ||
+              col.id === 'commentario'
+            )
+          );
+
           const statusColumns = item.column_values.filter(col => {
-            // Basado en el playground: las columnas status tienen text: "OK", "NO", "N/A"
             return col.text && (col.text === "OK" || col.text === "NO" || col.text === "N/A");
           });
 
           if (statusColumns.length > 0) {
             const categoryData = statusColumns.map(col => ({
               columnId: col.id,
-              columnTitle: col.column.title, // Usar el title real de Monday.com
-              categoryName: mapColumnIdToCategoryName(col.id), // Mapear a nombre estándar
+              columnTitle: col.column.title,
+              categoryName: mapColumnIdToCategoryName(col.id),
               status: col.text
             }));
 
-            // La fecha viene en item.name (ej: "01-05-2025")
-            categoryMapping[item.name] = categoryData;
+            // ✅ CAMBIAR ESTRUCTURA PARA INCLUIR COMENTARIOS
+            categoryMapping[item.name] = {
+              categories: categoryData,
+              comment: commentColumn ? commentColumn.text || '' : ''
+            };
           }
         }
       });
@@ -195,14 +198,13 @@ const Dashboard = ({ userConfig }) => {
       const columnMapping = await mondayService.getColumnMapping(MONDAY_BOARD_ID);
       setMondayColumnMapping(columnMapping);
 
-      // 4. Importar datos al dashboard
       const importResult = await mondayService.importToDashboard(MONDAY_BOARD_ID, categoryMapping);
 
       // 5. Actualizar timestamp de sincronización
       setLastMondaySync(new Date());
 
       // 6. Cargar los datos procesados
-      await loadData();
+      // await loadData();
 
     } catch (error) {
       setError(`Error al sincronizar con Monday.com: ${error.message}`);
@@ -231,7 +233,7 @@ const Dashboard = ({ userConfig }) => {
 
   const getExactCategoriesWithNO = (date, mondayCategoryMapping) => {
     if (!mondayCategoryMapping) {
-      return [];
+      return { categories: [], comment: '' }
     }
 
     // Basado en el playground, las fechas están en formato DD-MM-YYYY (ej: "01-05-2025")
@@ -262,6 +264,7 @@ const Dashboard = ({ userConfig }) => {
     possibleDateFormats.push(date);
 
     let categoriesWithNO = [];
+    let comment = '';
     let foundDate = null;
 
 
@@ -275,27 +278,32 @@ const Dashboard = ({ userConfig }) => {
 
     if (foundDate) {
       const dayData = mondayCategoryMapping[foundDate];
+      comment = dayData.comment || ''; // ✅ Extraer comentario
 
       // Extraer categorías con status "NO"
-      dayData.forEach(categoryData => {
-        const { columnId, categoryName, status } = categoryData;
+      if (dayData.categories) { // ✅ Verificar que dayData.categories existe
+        dayData.categories.forEach(categoryData => {
+          const { columnId, categoryName, status } = categoryData;
 
-        // Filtrar solo las columnas KPI (tipo status) y que tengan "NO"
-        if (status === 'NO' &&
-          categoryName &&
-          categoryName !== 'Name' &&
-          categoryName !== 'Commentario' &&
-          categoryName !== 'Subelementos') {
+          // Filtrar solo las columnas KPI (tipo status) y que tengan "NO"
+          if (status === 'NO' &&
+            categoryName &&
+            categoryName !== 'Name' &&
+            categoryName !== 'Commentario' &&
+            categoryName !== 'Subelementos') {
 
-          categoriesWithNO.push(categoryName);
-        }
-      });
+            categoriesWithNO.push(categoryName);
+          }
+        }); // ✅ Cerrar correctamente el forEach
+      } // ✅ Cerrar correctamente el if (dayData.categories)
     } else {
       // Mostrar fechas disponibles para debugging
       const availableDates = Object.keys(mondayCategoryMapping || {}).slice(0, 10);
+      console.log(`Fecha no encontrada: ${date}. Fechas disponibles:`, availableDates);
     }
 
-    return categoriesWithNO;
+    // ✅ Retornar objeto con categorías y comentario
+    return { categories: categoriesWithNO, comment };
   };
 
   const loadData = async () => {
@@ -311,7 +319,7 @@ const Dashboard = ({ userConfig }) => {
       // Calcular fechas según el período
       const { startDate, endDate } = calculateDateRange(period);
 
-      // ✅ SOLUCIÓN 3: Limpiar datos filtrados antes de la nueva carga
+      // Limpiar datos filtrados antes de la nueva carga
       setSummary(prev => {
         if (prev) {
           return {
@@ -491,12 +499,15 @@ const Dashboard = ({ userConfig }) => {
           const enrichedTrend = filteredTrend.map((item, index) => {
             let categoriesWithNO = [];
             let categoryDetails = [];
+            let comment = '';
 
             // ✅ USAR DATOS EXACTOS DE MONDAY.COM
             if (item.no > 0 && mondayCategoryMapping) {
-
               // Extraer categorías exactas
-              categoriesWithNO = getExactCategoriesWithNO(item.date, mondayCategoryMapping);
+              const result = getExactCategoriesWithNO(item.date, mondayCategoryMapping);
+              categoriesWithNO = result.categories;
+              comment = result.comment;
+
               if (categoriesWithNO.length > 0) {
                 // Crear categoryDetails
                 categoryDetails = categoriesWithNO.map(category => ({
@@ -507,12 +518,16 @@ const Dashboard = ({ userConfig }) => {
                   rate: "0.0"
                 }));
               }
+            } else if (mondayCategoryMapping) {
+              const result = getExactCategoriesWithNO(item.date, mondayCategoryMapping);
+              comment = result.comment;
             }
 
             return {
               ...item,
               categoriesWithNO,
               categoryDetails,
+              comment,
               hasIncumplimientos: categoriesWithNO.length > 0
             };
           });
@@ -747,6 +762,238 @@ const Dashboard = ({ userConfig }) => {
     };
   };
 
+  // 1. Agrega esto al inicio de tu componente Dashboard, después de los imports:
+  const scrollbarStyles = `
+  .tooltip-comment-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+  
+  .tooltip-comment-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .tooltip-comment-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .tooltip-comment-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .tooltip-comment-scroll::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
+  
+  .tooltip-comment-container {
+    background: linear-gradient(white 30%, rgba(255,255,255,0)),
+                linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+                radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+                radial-gradient(50% 100%, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: #f0f7ff;
+    background-size: 100% 15px, 100% 15px, 100% 5px, 100% 5px;
+    background-attachment: local, local, scroll, scroll;
+  }
+`;
+
+  // 2. Función para inyectar los estilos (agregar dentro del componente Dashboard)
+  const injectScrollbarStyles = () => {
+    const styleId = 'tooltip-scrollbar-styles';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = scrollbarStyles;
+      document.head.appendChild(style);
+    }
+  };
+
+  // 3. Llamar la función en useEffect (agregar dentro del componente Dashboard)
+  useEffect(() => {
+    injectScrollbarStyles();
+  }, []);
+
+  // 4. Versión mejorada del EnhancedTooltip usando las clases CSS:
+  const EnhancedTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      const formattedDate = data.formattedDate;
+      const comment = data.comment;
+      const categoriesWithNO = data.categoriesWithNO || [];
+      const hasIncumplimientos = data.no > 0;
+
+      return (
+        <div style={{
+          backgroundColor: '#fff',
+          padding: '16px',
+          border: '2px solid #007acc',        // ✅ Borde más visible
+          borderRadius: '8px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)', // ✅ Sombra más fuerte
+          fontSize: '13px',
+          maxWidth: '400px',                  // ✅ Ancho controlado
+          lineHeight: '1.4',
+
+          // ✅ Z-INDEX MUY ALTO para estar por encima de todo
+          zIndex: 99999,
+
+          // ✅ POSICIONAMIENTO que evita superposición
+          position: 'relative',
+
+          // ✅ Altura máxima controlada sin scroll
+          maxHeight: '500px',                 // Altura máxima para pantallas pequeñas
+          overflow: 'visible',                // Sin scroll, pero controlado
+
+          // ✅ FONDO SEMI-TRANSPARENTE PARA DESTACAR
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)'
+        }}>
+
+          {/* Fecha */}
+          <p style={{ margin: '0 0 10px 0', fontWeight: 'bold', fontSize: '14px' }}>
+            📅 {formattedDate}
+          </p>
+
+          {/* Tasa de cumplimiento */}
+          <p style={{ margin: '0 0 10px 0' }}>
+            <span style={{ fontWeight: 'bold' }}>📊 Tasa de Cumplimiento:</span>
+            <span style={{
+              color: data.complianceRate >= 90 ? '#4caf50' : data.complianceRate >= 70 ? '#ff9800' : '#f44336',
+              fontWeight: 'bold',
+              marginLeft: '4px'
+            }}>
+              {data.complianceRate ? `${data.complianceRate.toFixed(1)}%` : '0%'}
+            </span>
+          </p>
+          {/* Categorías con incumplimientos */}
+          {hasIncumplimientos && categoriesWithNO && categoriesWithNO.length > 0 && (
+            <div style={{
+              margin: '12px 0',
+              padding: '12px',
+              backgroundColor: '#ffebee',
+              borderRadius: '6px',
+              borderLeft: '4px solid #f44336'
+            }}>
+              <p style={{ margin: '0 0 8px 0', color: '#f44336', fontWeight: 'bold', fontSize: '12px' }}>
+                🚨 {categoriesWithNO.length > 1 ? 'Reportes con incumplimiento:' : 'Reporte con incumplimiento:'}
+              </p>
+              <ul style={{ margin: '0', paddingLeft: '20px', color: '#d32f2f' }}>
+                {categoriesWithNO.map((category, index) => (
+                  <li key={index} style={{
+                    margin: '4px 0',
+                    fontSize: '11px',
+                    lineHeight: '1.4'
+                  }}>
+                    {category}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* ✅ COMENTARIO CON ALTURA CONTROLADA */}
+          {comment && comment.trim() !== '' && (
+            <div style={{
+              margin: '12px 0 0 0',
+              borderTop: '2px solid #e0e0e0',
+              paddingTop: '12px'
+            }}>
+              <p style={{
+                margin: '0 0 8px 0',
+                fontWeight: 'bold',
+                fontSize: '13px',
+                color: '#666'
+              }}>
+                💬 Comentario:
+              </p>
+
+              <div style={{
+                backgroundColor: '#f0f7ff',
+                border: '2px solid #cce7ff',
+                borderRadius: '8px',
+                padding: '12px',
+
+                // ✅ ALTURA MÁXIMA CONTROLADA - SIN SCROLL PERO LIMITADA
+                maxHeight: '200px',
+                minHeight: 'auto',
+                overflow: 'hidden',              // Oculta contenido que no cabe
+
+                lineHeight: '1.6',
+                position: 'relative'
+              }}>
+                <p style={{
+                  margin: '0',
+                  fontSize: '12px',
+                  color: '#2c5282',
+                  lineHeight: '1.6',
+                  whiteSpace: 'pre-wrap',
+                  wordWrap: 'break-word',
+                  overflowWrap: 'break-word'
+                }}>
+                  {comment}
+                </p>
+
+                {/* ✅ GRADIENTE FADE-OUT SI EL COMENTARIO ES MUY LARGO */}
+                {comment.length > 300 && (
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '0',
+                    left: '0',
+                    right: '0',
+                    height: '30px',
+                    background: 'linear-gradient(transparent, #f0f7ff)',
+                    pointerEvents: 'none'
+                  }} />
+                )}
+              </div>
+
+              {/* ✅ INDICADOR SI EL COMENTARIO ESTÁ CORTADO */}
+              {comment.length > 300 && (
+                <div style={{
+                  marginTop: '8px',
+                  fontSize: '11px',
+                  color: '#666',
+                  fontStyle: 'italic',
+                  textAlign: 'center',
+                  backgroundColor: '#fff3cd',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ffeaa7'
+                }}>
+                  📝 Ver comentario completo en Monday.com
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Mensaje cuando no hay comentarios */}
+          {hasIncumplimientos && (!comment || comment.trim() === '') && (
+            <div style={{
+              margin: '12px 0 0 0',
+              borderTop: '2px solid #e0e0e0',
+              paddingTop: '12px'
+            }}>
+              <p style={{
+                margin: '0',
+                fontSize: '12px',
+                color: '#999',
+                fontStyle: 'italic',
+                textAlign: 'center',
+                backgroundColor: '#f9f9f9',
+                padding: '8px',
+                borderRadius: '4px'
+              }}>
+                💭 Sin comentarios adicionales para esta fecha
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
   // Funciones para manejar el modal de selección de fechas
   const handleOpenDateDialog = () => {
     // Inicializar fechas con el rango actual
@@ -801,94 +1048,274 @@ const Dashboard = ({ userConfig }) => {
   };
 
   // Preparar datos para gráficos según el período seleccionado
+  // Función mejorada para preparar datos de categorías usando datos de Monday.com
   const prepareCategoryData = () => {
-    if (!summary || !summary.byCategory) {
+    if (!mondayCategoryMapping || Object.keys(mondayCategoryMapping).length === 0) {
+      console.warn('No hay datos de Monday.com disponibles');
       return [];
     }
 
     // Filtrar categorías no deseadas
-    const excludedCategories = ['Item ID (auto generated)', 'Item ID (autogenerated)', 'Item ID', 'ID'];
+    const excludedCategories = [
+      'Item ID (auto generated)',
+      'Item ID (autogenerated)',
+      'Item ID',
+      'ID',
+      'Name',
+      'Commentario',
+      'Subelementos'
+    ];
 
-    // Usar datos filtrados si están disponibles
-    if (summary.filteredByCategory) {
-
-      // Usar directamente los datos filtrados por categoría
-      const categoryData = {};
-
-      // Inicializar categorías con los datos filtrados
-      Object.entries(summary.filteredByCategory)
-        .filter(([category]) => !excludedCategories.includes(category))
-        .forEach(([category, counts]) => {
-          categoryData[category] = {
-            ok: counts.ok || 0,
-            no: counts.no || 0,
-            na: counts.na || 0
-          };
-        });
-
-      // Convertir a formato para gráfico
-      const data = Object.entries(categoryData)
-        .map(([category, counts]) => {
-          const total = counts.ok + counts.no;
-          const complianceRate = total > 0 ? (counts.ok / total) * 100 : 0;
-
-          return {
-            name: CATEGORY_SHORT_NAMES[category] || category,
-            fullName: category,
-            ok: counts.ok,
-            no: counts.no,
-            na: counts.na,
-            complianceRate: complianceRate
-          };
-        });
-
-      return data;
-    }
-
-    // Si no hay datos filtrados, usar los datos totales con factor de escala
+    // Obtener rango de fechas según el período seleccionado
     const { startDate, endDate } = calculateDateRange(period);
     const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
 
-    // Si no pudimos filtrar por fecha (datos insuficientes), usar los datos totales
-    const totalDays = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24)) + 1;
-    const allDays = Object.keys(summary.byDate || {}).length || 30;
-    const scaleFactor = totalDays / allDays;
+    // Inicializar contadores por categoría
+    const categoryStats = {};
 
-    const data = Object.entries(summary.byCategory)
-      .filter(([category]) => !excludedCategories.includes(category))
-      .map(([category, data]) => {
-        let ok = data.ok;
-        let no = data.no;
-        let na = data.na;
+    // ✅ CORREGIR: Cambiar 'categoryData' por 'dayData' en el parámetro
+    Object.entries(mondayCategoryMapping).forEach(([dateKey, dayData]) => {
+      // Convertir la fecha de Monday.com al formato Date para comparar
+      let itemDate;
 
-        if (period !== 'year' && scaleFactor < 0.9) {
-          ok = Math.round(data.ok * scaleFactor);
-          no = Math.round(data.no * scaleFactor);
-          na = Math.round(data.na * scaleFactor);
+      // Monday.com usa formato DD-MM-YYYY (ej: "01-05-2025")
+      if (dateKey.match(/^\d{1,2}-\d{1,2}-\d{4}$/)) {
+        const [day, month, year] = dateKey.split('-');
+        itemDate = new Date(year, month - 1, day);
+      }
+      // También manejar formato DD/MM/YYYY
+      else if (dateKey.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)) {
+        const [day, month, year] = dateKey.split('/');
+        itemDate = new Date(year, month - 1, day);
+      }
+      else {
+        // Intentar parsear directamente
+        itemDate = new Date(dateKey);
+      }
+
+      // Verificar que la fecha es válida y está en el rango
+      if (isNaN(itemDate.getTime())) {
+        console.warn(`Fecha inválida en Monday.com: ${dateKey}`);
+        return;
+      }
+
+      // Normalizar fechas para comparación
+      const normalizedItemDate = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+      const normalizedStartDate = new Date(startDateObj.getFullYear(), startDateObj.getMonth(), startDateObj.getDate());
+      const normalizedEndDate = new Date(endDateObj.getFullYear(), endDateObj.getMonth(), endDateObj.getDate());
+
+      // Verificar si la fecha está en el rango seleccionado
+      if (normalizedItemDate >= normalizedStartDate && normalizedItemDate <= normalizedEndDate) {
+
+        // ✅ AHORA SÍ PUEDE USAR dayData porque está definido correctamente
+        if (dayData.categories && Array.isArray(dayData.categories)) {
+          dayData.categories.forEach(categoryItem => {
+            const { categoryName, status } = categoryItem;
+
+            // Filtrar categorías excluidas
+            if (!categoryName || excludedCategories.includes(categoryName)) {
+              return;
+            }
+
+            // Inicializar categoría si no existe
+            if (!categoryStats[categoryName]) {
+              categoryStats[categoryName] = {
+                ok: 0,
+                no: 0,
+                na: 0,
+                totalDays: 0
+              };
+            }
+
+            // Contar este día para la categoría
+            categoryStats[categoryName].totalDays++;
+
+            // Contar según el estado
+            switch (status) {
+              case 'OK':
+                categoryStats[categoryName].ok++;
+                break;
+              case 'NO':
+                categoryStats[categoryName].no++;
+                break;
+              case 'N/A':
+                categoryStats[categoryName].na++;
+                break;
+              default:
+                console.warn(`Estado desconocido: ${status} para categoría ${categoryName}`);
+            }
+          });
+        } else {
+          console.warn(`Estructura de datos incorrecta para fecha ${dateKey}:`, dayData);
         }
+      }
+    });
 
-        const total = ok + no;
-        const complianceRate = total > 0 ? (ok / total) * 100 : 0;
+    // Convertir a formato para gráfico
+    const data = Object.entries(categoryStats)
+      .map(([category, stats]) => {
+        // Calcular tasa de cumplimiento basada solo en OK y NO (ignorar NA)
+        const total = stats.ok + stats.no;
+        const complianceRate = total > 0 ? (stats.ok / total) * 100 : 0;
 
         return {
           name: CATEGORY_SHORT_NAMES[category] || category,
           fullName: category,
-          ok: ok,
-          no: no,
-          na: na,
-          complianceRate: complianceRate
+          ok: stats.ok,
+          no: stats.no,
+          na: stats.na,
+          totalDays: stats.totalDays,
+          complianceRate: complianceRate,
+          // Información adicional para debugging
+          validResponses: total, // Solo OK + NO
+          responseRate: stats.totalDays > 0 ? ((total + stats.na) / stats.totalDays) * 100 : 0
         };
-      });
+      })
+      // Filtrar categorías sin datos válidos
+      .filter(item => item.validResponses > 0)
+      // Ordenar por tasa de cumplimiento (menor a mayor para mostrar problemas primero)
+      .sort((a, b) => a.complianceRate - b.complianceRate);
 
     return data;
+  };
+
+  // CustomTooltip mejorado para mostrar información detallada de categorías
+  const CustomTooltipCategory = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div style={{
+          backgroundColor: '#fff',
+          padding: '12px',
+          border: '1px solid #ccc',
+          borderRadius: '8px',
+          boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
+          fontSize: '13px',
+          maxWidth: '300px',
+          lineHeight: '1.4'
+        }}>
+          {/* Nombre de la categoría */}
+          <p style={{
+            margin: '0 0 8px 0',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            borderBottom: '1px solid #eee',
+            paddingBottom: '4px'
+          }}>
+            📂 {data.fullName || data.name}
+          </p>
+
+          {/* Tasa de cumplimiento */}
+          <p style={{ margin: '0 0 6px 0' }}>
+            <span style={{ fontWeight: 'bold' }}>📊 Tasa de Cumplimiento: </span>
+            <span style={{
+              color: data.complianceRate >= 96 ? '#4caf50' :
+                data.complianceRate >= 80 ? '#ff9800' : '#f44336',
+              fontWeight: 'bold',
+              fontSize: '14px'
+            }}>
+              {data.complianceRate.toFixed(1)}%
+            </span>
+          </p>
+
+          {/* Estadísticas detalladas */}
+          <div style={{
+            backgroundColor: '#f8f9fa',
+            padding: '8px',
+            borderRadius: '4px',
+            margin: '6px 0'
+          }}>
+            <p style={{ margin: '0 0 4px 0', fontSize: '12px', fontWeight: 'bold', color: '#666' }}>
+              📈 Estadísticas del período:
+            </p>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2px 0' }}>
+              <span style={{ color: '#4caf50', fontSize: '12px' }}>✅ Cumplimientos:</span>
+              <span style={{ fontWeight: 'bold', color: '#4caf50' }}>{data.ok}</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2px 0' }}>
+              <span style={{ color: '#f44336', fontSize: '12px' }}>❌ Incumplimientos:</span>
+              <span style={{ fontWeight: 'bold', color: '#f44336' }}>{data.no}</span>
+            </div>
+
+            {data.na > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2px 0' }}>
+                <span style={{ color: '#9e9e9e', fontSize: '12px' }}>➖ No Aplica:</span>
+                <span style={{ fontWeight: 'bold', color: '#9e9e9e' }}>{data.na}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Función auxiliar para obtener estadísticas detalladas por categoría (opcional)
+  const getCategoryDetailedStats = () => {
+    if (!mondayCategoryMapping) return {};
+
+    const { startDate, endDate } = calculateDateRange(period);
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+
+    const stats = {
+      totalDatesProcessed: 0,
+      totalCategoriesFound: new Set(),
+      dateRange: `${startDate} a ${endDate}`,
+      categoryBreakdown: {}
+    };
+
+    Object.entries(mondayCategoryMapping).forEach(([dateKey, categoryData]) => {
+      let itemDate;
+      if (dateKey.match(/^\d{1,2}-\d{1,2}-\d{4}$/)) {
+        const [day, month, year] = dateKey.split('-');
+        itemDate = new Date(year, month - 1, day);
+      } else {
+        itemDate = new Date(dateKey);
+      }
+
+      if (!isNaN(itemDate.getTime())) {
+        const normalizedItemDate = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+        const normalizedStartDate = new Date(startDateObj.getFullYear(), startDateObj.getMonth(), startDateObj.getDate());
+        const normalizedEndDate = new Date(endDateObj.getFullYear(), endDateObj.getMonth(), endDateObj.getDate());
+
+        if (normalizedItemDate >= normalizedStartDate && normalizedItemDate <= normalizedEndDate) {
+          stats.totalDatesProcessed++;
+
+          categoryData.forEach(({ categoryName, status }) => {
+            if (categoryName && !['Name', 'Commentario', 'Subelementos'].includes(categoryName)) {
+              stats.totalCategoriesFound.add(categoryName);
+
+              if (!stats.categoryBreakdown[categoryName]) {
+                stats.categoryBreakdown[categoryName] = { OK: 0, NO: 0, 'N/A': 0 };
+              }
+              stats.categoryBreakdown[categoryName][status] = (stats.categoryBreakdown[categoryName][status] || 0) + 1;
+            }
+          });
+        }
+      }
+    });
+
+    stats.totalCategoriesFound = stats.totalCategoriesFound.size;
+    return stats;
   };
 
   const prepareTrendData = () => {
     // ✅ USAR los datos ya enriquecidos de summary.filteredTrend
     if (summary && summary.filteredTrend && Array.isArray(summary.filteredTrend) && summary.filteredTrend.length > 0) {
 
-      return summary.filteredTrend.map(item => ({
+      // 🆕 AGREGAR ESTAS LÍNEAS PARA ORDENAMIENTO
+      const sortedTrend = [...summary.filteredTrend].sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA - dateB; // Orden ascendente: más antigua → más reciente
+      });
+
+      // 🔄 CAMBIAR summary.filteredTrend por sortedTrend en el map
+      return sortedTrend.map(item => ({
         formattedDate: formatDate(item.date),
         complianceRate: parseFloat(item.complianceRate) || 0,
         ok: item.ok || 0,
@@ -986,9 +1413,6 @@ const Dashboard = ({ userConfig }) => {
             <Box>
               <Typography variant="h6" gutterBottom>
                 📊 Conectado a Monday.com
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Tablero ID: {MONDAY_BOARD_ID}
               </Typography>
             </Box>
 
@@ -1147,11 +1571,14 @@ const Dashboard = ({ userConfig }) => {
                           'Período personalizado'})
               </Typography>
               {trendReady && prepareTrendData().length > 0 ? (
-                <ResponsiveContainer width="100%" height="90%">
+                <ResponsiveContainer width="100%" height="90%" style={{ zIndex: 1, position: 'relative' }}>
                   <LineChart
                     key={`chart-${period}-${customDateRange ? JSON.stringify(customDateRange) : 'no-custom'}-${Date.now()}`}
                     data={prepareTrendData()}
                     margin={{ top: 5, right: 30, left: 20, bottom: 30 }}
+                    style={{
+                      overflow: 'visible'         // ✅ Permitir que el tooltip se salga
+                    }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
@@ -1165,110 +1592,7 @@ const Dashboard = ({ userConfig }) => {
                       domain={[0, 100]}
                       ticks={[0, 20, 40, 60, 80, 96, 100]}
                     />
-                    <Tooltip
-                      content={({ active, payload, label }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          const formattedDate = data.formattedDate;
-                          const comment = data.comment;
-                          const categoriesWithNO = data.categoriesWithNO || [];
-                          const hasIncumplimientos = data.no > 0;
-
-                          return (
-                            <div style={{
-                              backgroundColor: '#fff',
-                              padding: '12px',
-                              border: '1px solid #ccc',
-                              borderRadius: '8px',
-                              boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
-                              fontSize: '13px',
-                              maxWidth: '320px',
-                              lineHeight: '1.4'
-                            }}>
-                              {/* Fecha */}
-                              <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', fontSize: '14px' }}>
-                                📅 {formattedDate}
-                              </p>
-
-                              {/* Tasa de cumplimiento */}
-                              <p style={{ margin: '0 0 8px 0' }}>
-                                <span style={{ fontWeight: 'bold' }}>📊 Tasa de Cumplimiento:</span>
-                                <span style={{
-                                  color: data.complianceRate >= 90 ? '#4caf50' : data.complianceRate >= 70 ? '#ff9800' : '#f44336',
-                                  fontWeight: 'bold',
-                                  marginLeft: '4px'
-                                }}>
-                                  {data.complianceRate ? `${data.complianceRate.toFixed(1)}%` : 'N/A'}
-                                </span>
-                              </p>
-
-                              {/* ✅ CATEGORÍAS CON INCUMPLIMIENTOS */}
-                              {hasIncumplimientos && categoriesWithNO && categoriesWithNO.length > 0 && (
-                                <div style={{
-                                  margin: '8px 0',
-                                  padding: '8px',
-                                  backgroundColor: '#ffebee',
-                                  borderRadius: '4px',
-                                  borderLeft: '3px solid #f44336'
-                                }}>
-                                  <p style={{ margin: '0 0 4px 0', color: '#f44336', fontWeight: 'bold', fontSize: '12px' }}>
-                                    🚨 {categoriesWithNO.length > 1 ? 'Categorías con incumplimiento:' : 'Categoría con incumplimiento:'}
-                                  </p>
-                                  <ul style={{ margin: '0', paddingLeft: '16px', color: '#d32f2f' }}>
-                                    {categoriesWithNO.map((category, index) => (
-                                      <li key={index} style={{ margin: '2px 0', fontSize: '12px' }}>
-                                        {category}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-
-                              {/* Mensaje cuando no hay incumplimientos */}
-                              {!hasIncumplimientos && (
-                                <div style={{
-                                  margin: '8px 0',
-                                  padding: '6px',
-                                  backgroundColor: '#e8f5e8',
-                                  borderRadius: '4px',
-                                  borderLeft: '3px solid #4caf50'
-                                }}>
-                                  <p style={{ margin: '0', color: '#2e7d32', fontWeight: 'bold', fontSize: '12px' }}>
-                                    ✅ Sin incumplimientos detectados
-                                  </p>
-                                </div>
-                              )}
-
-                              {/* Comentario */}
-                              {comment && comment.trim() !== '' && (
-                                <div style={{
-                                  margin: '8px 0 0 0',
-                                  borderTop: '1px solid #eee',
-                                  paddingTop: '8px'
-                                }}>
-                                  <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', fontSize: '12px', color: '#666' }}>
-                                    💬 Comentario:
-                                  </p>
-                                  <p style={{
-                                    margin: '0',
-                                    fontSize: '11px',
-                                    color: '#555',
-                                    backgroundColor: '#f5f5f5',
-                                    padding: '6px',
-                                    borderRadius: '4px',
-                                    maxHeight: '60px',
-                                    overflowY: 'auto'
-                                  }}>
-                                    {comment}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
+                    <Tooltip content={<EnhancedTooltip />}/>
                     <Legend />
                     <ReferenceLine y={96} stroke="green" strokeDasharray="3 3" label="Meta 96%" />
                     <Line
@@ -1289,12 +1613,12 @@ const Dashboard = ({ userConfig }) => {
           </Grid>
         )}
 
-        {/* Tasa de Cumplimiento por Categoría */}
+        {/* Tasa de Cumplimiento por Reporte */}
         <Grid item xs={12}>
           <Paper sx={{ p: 2, height: 600 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Typography variant="h6">
-                Tasa de Cumplimiento por Categoría
+                Tasa de Cumplimiento por Reporte
               </Typography>
             </Box>
             {prepareCategoryData().length > 0 ? (
@@ -1316,7 +1640,7 @@ const Dashboard = ({ userConfig }) => {
                     width={140}
                     tick={{ fontSize: 12 }}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltipCategory />} />
                   <Legend />
                   <ReferenceLine
                     x={96}
@@ -1355,18 +1679,6 @@ const Dashboard = ({ userConfig }) => {
           </Paper>
         </Grid>
       </Grid>
-
-      {/* Botón para recargar datos */}
-      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="contained"
-          onClick={loadMondayData}
-          startIcon={<span role="img" aria-label="refresh">🔄</span>}
-          disabled={mondayLoading}
-        >
-          {mondayLoading ? 'Sincronizando...' : 'Sincronizar con Monday.com'}
-        </Button>
-      </Box>
     </Box>
   );
 };
